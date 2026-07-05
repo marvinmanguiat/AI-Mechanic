@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cars")
-@CrossOrigin(origins = "http://192.168.1.7:3000")
+@CrossOrigin
 public class CarController {
     
     @Autowired
