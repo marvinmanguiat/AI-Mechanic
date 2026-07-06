@@ -99,6 +99,7 @@ public class CarService {
         carModelRepository.save(new CarModel("Z4", bmw));
         carModelRepository.save(new CarModel("i3", bmw));
         carModelRepository.save(new CarModel("i8", bmw));
+        carModelRepository.save(new CarModel("M2", bmw));
         carModelRepository.save(new CarModel("M3", bmw));
         carModelRepository.save(new CarModel("M4", bmw));
         carModelRepository.save(new CarModel("M5", bmw));
