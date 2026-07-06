@@ -36,11 +36,23 @@ public class GeminiService {
         this.objectMapper = new ObjectMapper();
     }
 
+    public boolean isConfigured() {
+        return apiKey != null && !apiKey.isBlank();
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String checkHealth() {
+        return getAiResponse("Reply with exactly: OK");
+    }
+
     /**
      * Get a response from Gemini for a given prompt.
      */
     public String getAiResponse(String prompt) {
-        if (apiKey == null || apiKey.isBlank()) {
+        if (!isConfigured()) {
             return "Gemini API key is missing. Set GEMINI_API_KEY environment variable.";
         }
 
