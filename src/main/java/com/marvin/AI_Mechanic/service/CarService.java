@@ -79,14 +79,14 @@ public class CarService {
         }
 
         // Create Mercedez Benz make
-        CarMake mercedez = carMakeRepository.save(new CarMake("Mercedez Benz"));
-        carModelRepository.save(new CarModel("C-Class", mercedez));
-        carModelRepository.save(new CarModel("E-Class", mercedez));
-        carModelRepository.save(new CarModel("S-Class", mercedez));
-        carModelRepository.save(new CarModel("GLA", mercedez));
-        carModelRepository.save(new CarModel("GLC", mercedez));
-        carModelRepository.save(new CarModel("GLE", mercedez));
-        carModelRepository.save(new CarModel("GLS", mercedez));
+        CarMake mercedes = carMakeRepository.save(new CarMake("Mercedes Benz"));
+        carModelRepository.save(new CarModel("C-Class", mercedes));
+        carModelRepository.save(new CarModel("E-Class", mercedes));
+        carModelRepository.save(new CarModel("S-Class", mercedes));
+        carModelRepository.save(new CarModel("GLA", mercedes));
+        carModelRepository.save(new CarModel("GLC", mercedes));
+        carModelRepository.save(new CarModel("GLE", mercedes));
+        carModelRepository.save(new CarModel("GLS", mercedes));
 
         CarMake bmw = carMakeRepository.save(new CarMake("BMW"));
         carModelRepository.save(new CarModel("3 Series", bmw));
