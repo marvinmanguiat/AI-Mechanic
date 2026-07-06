@@ -78,14 +78,105 @@ public class CarService {
             return;
         }
 
+        // Create Mercedez Benz make
+        CarMake mercedez = carMakeRepository.save(new CarMake("Mercedez Benz"));
+        carModelRepository.save(new CarModel("C-Class", mercedez));
+        carModelRepository.save(new CarModel("E-Class", mercedez));
+        carModelRepository.save(new CarModel("S-Class", mercedez));
+        carModelRepository.save(new CarModel("GLA", mercedez));
+        carModelRepository.save(new CarModel("GLC", mercedez));
+        carModelRepository.save(new CarModel("GLE", mercedez));
+        carModelRepository.save(new CarModel("GLS", mercedez));
+
+        CarMake bmw = carMakeRepository.save(new CarMake("BMW"));
+        carModelRepository.save(new CarModel("3 Series", bmw));
+        carModelRepository.save(new CarModel("5 Series", bmw));
+        carModelRepository.save(new CarModel("7 Series", bmw));
+        carModelRepository.save(new CarModel("X1", bmw));
+        carModelRepository.save(new CarModel("X3", bmw));
+        carModelRepository.save(new CarModel("X5", bmw));
+        carModelRepository.save(new CarModel("X7", bmw));
+        carModelRepository.save(new CarModel("Z4", bmw));
+        carModelRepository.save(new CarModel("i3", bmw));
+        carModelRepository.save(new CarModel("i8", bmw));
+        carModelRepository.save(new CarModel("M3", bmw));
+        carModelRepository.save(new CarModel("M4", bmw));
+        carModelRepository.save(new CarModel("M5", bmw));
+        carModelRepository.save(new CarModel("M6", bmw));
+
+
+
         // Create Honda make
         CarMake honda = carMakeRepository.save(new CarMake("Honda"));
         carModelRepository.save(new CarModel("Civic", honda));
         carModelRepository.save(new CarModel("City", honda));
+        carModelRepository.save(new CarModel("Accord", honda));
+        carModelRepository.save(new CarModel("CR-V", honda));
+        carModelRepository.save(new CarModel("HR-V", honda));
+        carModelRepository.save(new CarModel("Pilot", honda));
+        carModelRepository.save(new CarModel("Odyssey", honda));
+        carModelRepository.save(new CarModel("Fit", honda));
+        carModelRepository.save(new CarModel("Insight", honda));
+        carModelRepository.save(new CarModel("Passport", honda));
+        carModelRepository.save(new CarModel("Ridgeline", honda));
+        carModelRepository.save(new CarModel("S2000", honda));
+        carModelRepository.save(new CarModel("NSX", honda));
+        carModelRepository.save(new CarModel("Prelude", honda));
+        carModelRepository.save(new CarModel("Element", honda));
+        carModelRepository.save(new CarModel("CR-Z", honda));
+        carModelRepository.save(new CarModel("FR-V", honda));
+        carModelRepository.save(new CarModel("Jazz", honda));
+
+
 
         // Create Mitsubishi make
         CarMake mitsubishi = carMakeRepository.save(new CarMake("Mitsubishi"));
         carModelRepository.save(new CarModel("Pajero", mitsubishi));
         carModelRepository.save(new CarModel("Montero", mitsubishi));
+        carModelRepository.save(new CarModel("Outlander", mitsubishi));
+        carModelRepository.save(new CarModel("Lancer", mitsubishi));
+        carModelRepository.save(new CarModel("Eclipse", mitsubishi));
+        carModelRepository.save(new CarModel("ASX", mitsubishi));
+        carModelRepository.save(new CarModel("Mirage", mitsubishi));
+        carModelRepository.save(new CarModel("Triton", mitsubishi));
+        carModelRepository.save(new CarModel("Colt", mitsubishi));
+        carModelRepository.save(new CarModel("Galant", mitsubishi));
+        carModelRepository.save(new CarModel("3000GT", mitsubishi));
+        carModelRepository.save(new CarModel("Space Star", mitsubishi));
+        carModelRepository.save(new CarModel("i-MiEV", mitsubishi));
+        carModelRepository.save(new CarModel("L200", mitsubishi));
+        carModelRepository.save(new CarModel("Lancer Evolution", mitsubishi));
+        carModelRepository.save(new CarModel("Grandis", mitsubishi));
+        carModelRepository.save(new CarModel("Carisma", mitsubishi));
+
+         // Create Toyota make
+        CarMake toyota = carMakeRepository.save(new CarMake("Toyota"));
+        carModelRepository.save(new CarModel("Corolla", toyota));
+        carModelRepository.save(new CarModel("Camry", toyota));
+        carModelRepository.save(new CarModel("RAV4", toyota));
+        carModelRepository.save(new CarModel("Hilux", toyota));
+        carModelRepository.save(new CarModel("Yaris", toyota));
+        carModelRepository.save(new CarModel("Prius", toyota));
+        carModelRepository.save(new CarModel("Land Cruiser", toyota));
+        carModelRepository.save(new CarModel("Fortuner", toyota));
+        carModelRepository.save(new CarModel("C-HR", toyota));
+        carModelRepository.save(new CarModel("Avalon", toyota));
+        carModelRepository.save(new CarModel("Supra", toyota));
+
+        // Create Ford make
+         CarMake ford = carMakeRepository.save(new CarMake("Ford"));
+        carModelRepository.save(new CarModel("F-150", ford));
+        carModelRepository.save(new CarModel("Mustang", ford));
+        carModelRepository.save(new CarModel("Explorer", ford));
+        carModelRepository.save(new CarModel("Escape", ford));
+        carModelRepository.save(new CarModel("Edge", ford));
+        carModelRepository.save(new CarModel("Fusion", ford));
+        carModelRepository.save(new CarModel("Taurus", ford));
+        carModelRepository.save(new CarModel("Focus", ford));
+        carModelRepository.save(new CarModel("Fiesta", ford));
+        carModelRepository.save(new CarModel("Bronco", ford));
+
+
+
     }
 }
