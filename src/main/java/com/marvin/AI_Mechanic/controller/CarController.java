@@ -1,5 +1,6 @@
 package com.marvin.AI_Mechanic.controller;
 
+import com.marvin.AI_Mechanic.dto.DiagnosisRequest;
 import com.marvin.AI_Mechanic.model.CarMake;
 import com.marvin.AI_Mechanic.model.CarModel;
 import com.marvin.AI_Mechanic.service.CarService;
@@ -134,8 +135,64 @@ public class CarController {
      * POST /api/cars/ai/ask
      */
     @PostMapping("/ai/ask")
-    public ResponseEntity<String> askAI(@RequestBody AiPromptRequest request) {
-        String response = geminiService.getAiResponse(request.getPrompt());
+    public ResponseEntity<String> askAI(@RequestBody DiagnosisRequest request) {
+
+        String symptoms = String.join("\n- ", request.getSymptoms());
+        symptoms = "- " + symptoms;
+
+        String prompt = """
+                You are an ASE-certified automotive technician.
+
+                Analyze the following vehicle carefully.
+
+                Vehicle Information:
+                Make: %s
+                Model: %s
+                Year: %d
+                Engine: %s
+                Transmission: %s
+
+                Symptoms:
+                %s
+
+                Please provide:
+
+                ## 1. Most Likely Causes
+                List the possible causes from most likely to least likely.
+
+                ## 2. Probability
+                Assign an estimated probability (0-100%%) for each possible cause.
+
+                ## 3. Recommended Inspections
+                Explain what should be inspected first.
+
+                ## 4. Repair Difficulty
+                Rate each repair:
+                - Easy
+                - Moderate
+                - Difficult
+
+                ## 5. Estimated Repair Cost
+                Give a rough estimate.
+
+                ## 6. Is it safe to drive?
+                Explain whether the vehicle should still be driven.
+
+                ## 7. Summary
+                Give a short conclusion.
+
+                Respond using Markdown.
+                """
+                .formatted(
+                        request.getMake(),
+                        request.getModel(),
+                        request.getYear(),
+                        request.getEngine(),
+                        request.getTransmission(),
+                        symptoms
+                );
+
+        String response = geminiService.getAiResponse(prompt);
         return ResponseEntity.ok(response);
     }
 
