@@ -3,7 +3,9 @@ package com.marvin.AI_Mechanic.controller;
 import com.marvin.AI_Mechanic.model.CarMake;
 import com.marvin.AI_Mechanic.model.CarModel;
 import com.marvin.AI_Mechanic.service.CarService;
+import com.marvin.AI_Mechanic.service.GeminiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,9 @@ public class CarController {
     
     @Autowired
     private CarService carService;
+    
+    @Autowired
+    private GeminiService geminiService;
 
     /**
      * Get all car makes
@@ -87,5 +92,162 @@ public class CarController {
             return ResponseEntity.status(201).body(model);
         }
         return ResponseEntity.notFound().build();
+    }
+
+        /**
+         * Get maintenance advice for a car using Gemini
+     * GET /api/cars/{make}/{model}/maintenance
+     */
+    @GetMapping("/{make}/{model}/maintenance")
+    public ResponseEntity<String> getMaintenanceAdvice(@PathVariable String make, 
+                                                       @PathVariable String model) {
+                String advice = geminiService.generateMaintenanceAdvice(make, model);
+        return ResponseEntity.ok(advice);
+    }
+
+    /**
+         * Get troubleshooting steps for a car issue using Gemini
+     * GET /api/cars/{make}/{model}/troubleshoot
+     */
+    @GetMapping("/{make}/{model}/troubleshoot")
+    public ResponseEntity<String> getTroubleshootingSteps(@PathVariable String make,
+                                                          @PathVariable String model,
+                                                          @RequestParam String issue) {
+                String steps = geminiService.generateTroubleshootingSteps(make, model, issue);
+        return ResponseEntity.ok(steps);
+    }
+
+    /**
+         * Get repair summary for a car using Gemini
+     * GET /api/cars/{make}/{model}/repair-summary
+     */
+    @GetMapping("/{make}/{model}/repair-summary")
+    public ResponseEntity<String> getRepairSummary(@PathVariable String make,
+                                                    @PathVariable String model,
+                                                    @RequestParam String repairType) {
+                String summary = geminiService.generateRepairSummary(make, model, repairType);
+        return ResponseEntity.ok(summary);
+    }
+
+    /**
+     * Get general AI response for a custom prompt
+     * POST /api/cars/ai/ask
+     */
+    @PostMapping("/ai/ask")
+    public ResponseEntity<String> askAI(@RequestBody AiPromptRequest request) {
+        String response = geminiService.getAiResponse(request.getPrompt());
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Lightweight AI health check.
+     * GET /api/cars/ai/health
+     */
+    @GetMapping("/ai/health")
+    public ResponseEntity<AiHealthResponse> aiHealth() {
+        long startedAt = System.currentTimeMillis();
+
+        if (!geminiService.isConfigured()) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new AiHealthResponse(
+                    "gemini",
+                    geminiService.getModel(),
+                    "DOWN",
+                    System.currentTimeMillis() - startedAt,
+                    "Gemini API key is not configured"
+                ));
+        }
+
+        String probe = geminiService.checkHealth();
+        long latencyMs = System.currentTimeMillis() - startedAt;
+        boolean up = !(probe.startsWith("Error:") || probe.startsWith("Gemini API error"));
+
+        HttpStatus status = up ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE;
+        String detail = up ? "Gemini is reachable" : probe;
+
+        return ResponseEntity.status(status)
+            .body(new AiHealthResponse("gemini", geminiService.getModel(), up ? "UP" : "DOWN", latencyMs, detail));
+    }
+
+    /**
+     * Simple DTO for AI prompt requests
+     */
+    public static class AiPromptRequest {
+        private String prompt;
+
+        public AiPromptRequest() {}
+
+        public AiPromptRequest(String prompt) {
+            this.prompt = prompt;
+        }
+
+        public String getPrompt() {
+            return prompt;
+        }
+
+        public void setPrompt(String prompt) {
+            this.prompt = prompt;
+        }
+    }
+
+    /**
+     * Simple DTO for AI health responses.
+     */
+    public static class AiHealthResponse {
+        private String provider;
+        private String model;
+        private String status;
+        private long latencyMs;
+        private String detail;
+
+        public AiHealthResponse() {}
+
+        public AiHealthResponse(String provider, String model, String status, long latencyMs, String detail) {
+            this.provider = provider;
+            this.model = model;
+            this.status = status;
+            this.latencyMs = latencyMs;
+            this.detail = detail;
+        }
+
+        public String getProvider() {
+            return provider;
+        }
+
+        public void setProvider(String provider) {
+            this.provider = provider;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public long getLatencyMs() {
+            return latencyMs;
+        }
+
+        public void setLatencyMs(long latencyMs) {
+            this.latencyMs = latencyMs;
+        }
+
+        public String getDetail() {
+            return detail;
+        }
+
+        public void setDetail(String detail) {
+            this.detail = detail;
+        }
     }
 }
