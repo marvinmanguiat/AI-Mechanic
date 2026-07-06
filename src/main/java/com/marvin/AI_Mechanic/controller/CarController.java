@@ -145,6 +145,8 @@ public class CarController {
 
                 Analyze the following vehicle carefully.
 
+                Estimated Repair Cost shoud be in Philippine Pesos (PHP).
+
                 Vehicle Information:
                 Make: %s
                 Model: %s
