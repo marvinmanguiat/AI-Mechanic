@@ -10,6 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -50,6 +51,19 @@ public class EmailService {
         try {
             sendViaBrevoApi(emailTo, emailFrom, subject, body);
             return;
+        } catch (RestClientResponseException ex) {
+            String responseBody = ex.getResponseBodyAsString();
+            log.error(
+                "Brevo API error for recipient {} -> status={}, responseBody='{}', keyMeta='{}'",
+                emailTo,
+                ex.getStatusCode().value(),
+                (responseBody == null || responseBody.isBlank()) ? "(empty)" : responseBody,
+                apiKeyMeta(normalizeApiKey(brevoApiKey))
+            );
+            if (!smtpFallback) {
+                throw ex;
+            }
+            log.warn("Falling back to SMTP because brevo.email.smtp-fallback=true");
         } catch (RestClientException ex) {
             log.error("Brevo email API call failed for recipient {}", emailTo, ex);
             if (!smtpFallback) {
@@ -62,14 +76,15 @@ public class EmailService {
     }
 
     private void sendViaBrevoApi(String emailTo, String emailFrom, String subject, String body) {
-        if (brevoApiKey == null || brevoApiKey.isBlank()) {
+        String normalizedApiKey = normalizeApiKey(brevoApiKey);
+        if (normalizedApiKey == null || normalizedApiKey.isBlank()) {
             throw new IllegalStateException("BREVO_API_KEY is missing");
         }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("api-key", brevoApiKey);
+        headers.set("api-key", normalizedApiKey);
 
         Map<String, Object> sender = new HashMap<>();
         String resolvedSenderEmail = (emailFrom == null || emailFrom.isBlank()) ? defaultSenderEmail : emailFrom;
@@ -96,6 +111,27 @@ public class EmailService {
         }
 
         log.info("Email sent via Brevo API to {} with status {}", emailTo, response.getStatusCode().value());
+    }
+
+    private String normalizeApiKey(String raw) {
+        if (raw == null) {
+            return "";
+        }
+        String normalized = raw.trim();
+        if (normalized.regionMatches(true, 0, "Bearer ", 0, 7)) {
+            normalized = normalized.substring(7).trim();
+        }
+        return normalized;
+    }
+
+    private String apiKeyMeta(String key) {
+        if (key == null || key.isBlank()) {
+            return "empty";
+        }
+        int length = key.length();
+        int previewLen = Math.min(6, length);
+        String prefix = key.substring(0, previewLen);
+        return "len=" + length + ",prefix=" + prefix + "***";
     }
 
     private void sendViaSmtp(String emailTo, String emailFrom, String subject, String body) {
