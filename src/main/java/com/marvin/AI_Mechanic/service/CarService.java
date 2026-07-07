@@ -70,6 +70,50 @@ public class CarService {
     }
 
     /**
+     * Update an existing car make name.
+     */
+    public Optional<CarMake> updateMake(Long makeId, String makeName) {
+        return carMakeRepository.findById(makeId)
+            .map(existing -> {
+                existing.setName(makeName);
+                return carMakeRepository.save(existing);
+            });
+    }
+
+    /**
+     * Delete a car make by id.
+     */
+    public boolean deleteMake(Long makeId) {
+        if (!carMakeRepository.existsById(makeId)) {
+            return false;
+        }
+        carMakeRepository.deleteById(makeId);
+        return true;
+    }
+
+    /**
+     * Update an existing car model name.
+     */
+    public Optional<CarModel> updateModel(Long modelId, String modelName) {
+        return carModelRepository.findById(modelId)
+            .map(existing -> {
+                existing.setName(modelName);
+                return carModelRepository.save(existing);
+            });
+    }
+
+    /**
+     * Delete a car model by id.
+     */
+    public boolean deleteModel(Long modelId) {
+        if (!carModelRepository.existsById(modelId)) {
+            return false;
+        }
+        carModelRepository.deleteById(modelId);
+        return true;
+    }
+
+    /**
      * Initialize database with sample data
      */
     public void initializeSampleData() {

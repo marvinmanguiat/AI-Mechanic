@@ -95,6 +95,54 @@ public class CarController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Update a car make
+     * PUT /api/cars/makes/{id}
+     */
+    @PutMapping("/makes/{id}")
+    public ResponseEntity<?> updateMake(@PathVariable Long id, @RequestParam String name) {
+        return carService.updateMake(id, name)
+            .<ResponseEntity<?>>map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Delete a car make
+     * DELETE /api/cars/makes/{id}
+     */
+    @DeleteMapping("/makes/{id}")
+    public ResponseEntity<Void> deleteMake(@PathVariable Long id) {
+        boolean deleted = carService.deleteMake(id);
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Update a car model
+     * PUT /api/cars/models/{id}
+     */
+    @PutMapping("/models/{id}")
+    public ResponseEntity<?> updateModel(@PathVariable Long id, @RequestParam String name) {
+        return carService.updateModel(id, name)
+            .<ResponseEntity<?>>map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Delete a car model
+     * DELETE /api/cars/models/{id}
+     */
+    @DeleteMapping("/models/{id}")
+    public ResponseEntity<Void> deleteModel(@PathVariable Long id) {
+        boolean deleted = carService.deleteModel(id);
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
         /**
          * Get maintenance advice for a car using Gemini
      * GET /api/cars/{make}/{model}/maintenance
