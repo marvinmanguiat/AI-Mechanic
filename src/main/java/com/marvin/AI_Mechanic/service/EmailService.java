@@ -2,6 +2,7 @@ package com.marvin.AI_Mechanic.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -40,10 +41,6 @@ public class EmailService {
                         @Value("${brevo.email.sender:}") String defaultSenderEmail,
                         @Value("${brevo.email.sender-name:AI Mechanic}") String defaultSenderName,
                         @Value("${brevo.email.smtp-fallback:false}") boolean smtpFallback) {
-
-
-                            log.info("Brevo Api Key: {}", (brevoApiKey == null || brevoApiKey.isBlank()) ? "(empty)" : "********");
-    
         this.restTemplate = restTemplate;
         this.mailSender = mailSender;
         this.brevoApiKey = brevoApiKey;
@@ -59,21 +56,31 @@ public class EmailService {
             return;
         } catch (RestClientResponseException ex) {
             String responseBody = ex.getResponseBodyAsString();
+            HttpStatusCode statusCode = ex.getStatusCode();
             log.error(
                 "Brevo API error for recipient {} -> status={}, responseBody='{}', keyMeta='{}'",
                 emailTo,
-                ex.getStatusCode().value(),
+                statusCode.value(),
                 (responseBody == null || responseBody.isBlank()) ? "(empty)" : responseBody,
                 apiKeyMeta(normalizeApiKey(brevoApiKey))
             );
+
+            if (statusCode.value() == 401) {
+                throw new IllegalArgumentException(
+                    "Email provider authentication failed (Brevo 401). Check Railway BREVO_API_KEY and redeploy."
+                );
+            }
+
             if (!smtpFallback) {
-                throw ex;
+                throw new IllegalArgumentException(
+                    "Email delivery failed via Brevo API (status " + statusCode.value() + ")."
+                );
             }
             log.warn("Falling back to SMTP because brevo.email.smtp-fallback=true");
         } catch (RestClientException ex) {
             log.error("Brevo email API call failed for recipient {}", emailTo, ex);
             if (!smtpFallback) {
-                throw ex;
+                throw new IllegalArgumentException("Email delivery failed via Brevo API.");
             }
             log.warn("Falling back to SMTP because brevo.email.smtp-fallback=true");
         }
