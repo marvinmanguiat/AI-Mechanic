@@ -172,6 +172,6 @@ public class AuthService {
             + verifyLink + "\n\n"
             + "This link will expire in 24 hours.";
         log.info("Verification link for {}: {}", user.getUsername(), verifyLink);
-        emailService.sendEmailOtp(user.getEmail(), "phlendwise@gmail.com", subject, body);
+        emailService.sendEmailOtp(user.getEmail(), null, subject, body);
     }
 }
