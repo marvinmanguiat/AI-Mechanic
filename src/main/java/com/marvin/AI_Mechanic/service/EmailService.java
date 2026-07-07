@@ -31,6 +31,8 @@ public class EmailService {
     private final String defaultSenderName;
     private final boolean smtpFallback;
 
+    
+
     public EmailService(RestTemplate restTemplate,
                         JavaMailSender mailSender,
                         @Value("${brevo.api.key:}") String brevoApiKey,
@@ -38,6 +40,10 @@ public class EmailService {
                         @Value("${brevo.email.sender:}") String defaultSenderEmail,
                         @Value("${brevo.email.sender-name:AI Mechanic}") String defaultSenderName,
                         @Value("${brevo.email.smtp-fallback:false}") boolean smtpFallback) {
+
+
+                            log.info("Brevo Api Key: {}", (brevoApiKey == null || brevoApiKey.isBlank()) ? "(empty)" : "********");
+    
         this.restTemplate = restTemplate;
         this.mailSender = mailSender;
         this.brevoApiKey = brevoApiKey;
@@ -76,6 +82,7 @@ public class EmailService {
     }
 
     private void sendViaBrevoApi(String emailTo, String emailFrom, String subject, String body) {
+        log.info("Sending email via Brevo API to {} with subject '{}'", emailTo, subject);
         String normalizedApiKey = normalizeApiKey(brevoApiKey);
         if (normalizedApiKey == null || normalizedApiKey.isBlank()) {
             throw new IllegalStateException("BREVO_API_KEY is missing");
