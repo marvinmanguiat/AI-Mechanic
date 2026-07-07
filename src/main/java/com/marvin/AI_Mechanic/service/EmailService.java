@@ -138,6 +138,8 @@ public class EmailService {
         if (normalized.regionMatches(true, 0, "Bearer ", 0, 7)) {
             normalized = normalized.substring(7).trim();
         }
+        // Remove hidden whitespace characters that can be accidentally introduced in env vars.
+        normalized = normalized.replaceAll("\\s+", "");
         return normalized;
     }
 

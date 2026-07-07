@@ -50,7 +50,7 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.emailService = emailService;
-        this.appBaseUrl = appBaseUrl;
+        this.appBaseUrl = appBaseUrl != null ? appBaseUrl.replaceAll("/+$", "") : "";
     }
 
     public AuthResponse register(RegisterRequest request) {
