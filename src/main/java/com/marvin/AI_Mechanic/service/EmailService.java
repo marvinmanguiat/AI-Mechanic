@@ -87,6 +87,12 @@ public class EmailService {
         if (normalizedApiKey == null || normalizedApiKey.isBlank()) {
             throw new IllegalStateException("BREVO_API_KEY is missing");
         }
+        if (!normalizedApiKey.startsWith("xkeysib-")) {
+            throw new IllegalStateException(
+                "BREVO_API_KEY does not look like a Brevo API v3 key (expected prefix 'xkeysib-'). keyMeta="
+                    + apiKeyMeta(normalizedApiKey)
+            );
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -125,6 +131,10 @@ public class EmailService {
             return "";
         }
         String normalized = raw.trim();
+        if ((normalized.startsWith("\"") && normalized.endsWith("\""))
+            || (normalized.startsWith("'") && normalized.endsWith("'"))) {
+            normalized = normalized.substring(1, normalized.length() - 1).trim();
+        }
         if (normalized.regionMatches(true, 0, "Bearer ", 0, 7)) {
             normalized = normalized.substring(7).trim();
         }
