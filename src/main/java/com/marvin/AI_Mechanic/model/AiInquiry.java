@@ -31,7 +31,7 @@ public class AiInquiry {
     @Column(nullable = false)
     private String model;
 
-    @Column(nullable = false)
+    @Column(name = "vehicle_year", nullable = false)
     private int year;
 
     @Column(nullable = false)
