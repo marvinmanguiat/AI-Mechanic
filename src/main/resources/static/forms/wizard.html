@@ -1,0 +1,2814 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>AI Mechanic V1.0 By Marvin manguiaat</title>
+
+    <!--begin::Accessibility Meta Tags-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <!--end::Accessibility Meta Tags-->
+
+    <!--begin::Primary Meta Tags-->
+    <meta name="title" content="AI Mechanic V1.0 By Marvin manguiaat" />
+    <meta name="author" content="ColorlibHQ" />
+    <meta
+      name="description"
+      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
+    />
+    <meta
+      name="keywords"
+      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant"
+    />
+    <!--end::Primary Meta Tags-->
+
+    <!--begin::Accessibility Features-->
+    <!-- Skip links will be dynamically added by accessibility.js -->
+    <meta name="supported-color-schemes" content="light dark" />
+    <link rel="preload" href="../css/adminlte.css" as="style" />
+    <!--end::Accessibility Features-->
+
+    <!--begin::Fonts-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+      crossorigin="anonymous"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <!--end::Fonts-->
+
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+
+    <!--begin::Required Plugin(AdminLTE)-->
+    <link rel="stylesheet" href="../css/adminlte.css" />
+    <!--end::Required Plugin(AdminLTE)-->
+    <style>
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(13, 110, 253, 0.16), transparent 32%),
+          radial-gradient(circle at top right, rgba(32, 201, 151, 0.12), transparent 28%),
+          linear-gradient(180deg, #f7f9fc 0%, #eef3f9 100%);
+      }
+      .app-content {
+        padding: 2.5rem 0 3rem;
+      }
+      .wizard-steps {
+        counter-reset: step;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        position: relative;
+        margin-bottom: 2rem;
+      }
+      .wizard-steps::before {
+        content: '';
+        position: absolute;
+        top: 1.2rem;
+        left: 3rem;
+        right: 3rem;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgba(13, 110, 253, 0.15),
+          rgba(13, 110, 253, 0.35),
+          rgba(13, 110, 253, 0.15)
+        );
+        z-index: 0;
+      }
+      .wizard-steps li {
+        position: relative;
+        z-index: 1;
+        flex: 1 1 0;
+        padding: 0.5rem 0.75rem 0;
+        text-align: center;
+        color: var(--bs-secondary-color);
+        font-size: 0.875rem;
+        min-width: 0;
+      }
+      .wizard-steps li::before {
+        counter-increment: step;
+        content: counter(step);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.4rem;
+        height: 2.4rem;
+        margin: 0 auto 0.5rem;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid rgba(13, 110, 253, 0.18);
+        color: var(--bs-secondary-color);
+        font-weight: 600;
+      }
+      .wizard-steps li.active {
+        color: var(--bs-primary);
+        font-weight: 600;
+      }
+      .wizard-steps li.active::before {
+        background: linear-gradient(135deg, #3484ff 0%, #0d6efd 100%);
+        border-color: transparent;
+        color: #fff;
+      }
+      .wizard-steps li.completed::before {
+        background: linear-gradient(135deg, #2bb673 0%, #198754 100%);
+        border-color: transparent;
+        color: #fff;
+        content: '\f633';
+        font-family: 'bootstrap-icons';
+      }
+      .wizard-card {
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.25rem;
+        background: #fff;
+        box-shadow: none;
+      }
+      .auth-card {
+        margin-bottom: 1.25rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.25rem;
+        background: rgba(255, 255, 255, 0.94);
+      }
+      .auth-card .card-body {
+        padding: 1.5rem !important;
+      }
+      .auth-title {
+        margin: 0 0 0.35rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .auth-copy {
+        margin-bottom: 1rem;
+        color: #475569;
+      }
+      .auth-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.2rem;
+        background: #f8fafc;
+      }
+      .auth-status-copy {
+        margin: 0;
+        color: #334155;
+      }
+      .auth-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .auth-feedback {
+        margin-top: 0.85rem;
+      }
+      .auth-divider {
+        margin: 1rem 0;
+        color: #64748b;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-align: center;
+      }
+      .wizard-card .card-body {
+        padding: 2rem !important;
+      }
+      .wizard-step {
+        padding: 1.5rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.25rem;
+        background: #fff;
+      }
+      .wizard-step h2 {
+        color: #0f172a;
+        font-weight: 700;
+      }
+      .wizard-step p {
+        max-width: 56rem;
+      }
+      .form-label {
+        margin-bottom: 0.65rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #475569;
+      }
+      .form-control,
+      .form-select {
+        min-height: 3.25rem;
+        border-radius: 0.2rem;
+        border-color: rgba(148, 163, 184, 0.45);
+        background-color: #fff;
+        box-shadow: none;
+      }
+      .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 1.5rem;
+      }
+      .form-check-input {
+        width: 1rem;
+        height: 1rem;
+        margin-top: 0;
+        flex: 0 0 1rem;
+      }
+      .form-check-label {
+        line-height: 1.2;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: rgba(13, 110, 253, 0.5);
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.12);
+      }
+      textarea.form-control {
+        min-height: 7rem;
+      }
+      .photo-upload-panel {
+        padding: 1rem;
+        border: 1px dashed rgba(13, 110, 253, 0.28);
+        border-radius: 0.2rem;
+        background: #fff;
+      }
+      .photo-upload-help {
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        font-size: 0.875rem;
+        color: var(--bs-secondary-color);
+      }
+      .photo-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 0.85rem;
+        margin-top: 1rem;
+      }
+      .photo-preview-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.2rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        background: #fff;
+      }
+      .photo-preview-media {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: #e2e8f0;
+      }
+      .photo-preview-meta {
+        padding: 0.7rem 0.75rem 0.85rem;
+      }
+      .photo-preview-name {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .photo-preview-remove {
+        position: absolute;
+        top: 0.55rem;
+        right: 0.55rem;
+        width: 2rem;
+        height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 0.2rem;
+        background: rgba(15, 23, 42, 0.72);
+        color: #fff;
+      }
+      .photo-preview-empty {
+        margin-top: 1rem;
+        margin-bottom: 0;
+        color: var(--bs-secondary-color);
+        font-size: 0.9rem;
+      }
+      .review-media-section {
+        margin-top: 1.5rem;
+      }
+      .review-media-title {
+        margin-bottom: 0.75rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #475569;
+      }
+      .component-options {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.1rem;
+      }
+      .component-option-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .component-option {
+        width: 100%;
+        min-height: 180px;
+        padding: 1.1rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.2rem;
+        background: #fff;
+        box-shadow: none;
+        cursor: pointer;
+        transition:
+          border-color 0.2s ease,
+          background-color 0.2s ease;
+      }
+      .component-option:hover {
+        border-color: var(--bs-primary);
+        background: rgba(13, 110, 253, 0.03);
+      }
+      .component-option-input:checked + .component-option {
+        border-color: var(--bs-primary);
+        background: rgba(13, 110, 253, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(var(--bs-primary-rgb), 0.2);
+      }
+      .component-option-input.is-invalid + .component-option {
+        border-color: var(--bs-danger);
+      }
+      .component-option-icon {
+        width: 3.75rem;
+        height: 3.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+        border-radius: 0.2rem;
+        background: var(--bs-primary);
+        color: #fff;
+        font-size: 1.75rem;
+      }
+      .component-option-title {
+        display: block;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--bs-emphasis-color);
+      }
+      .component-option-copy {
+        display: block;
+        color: #13151a;
+        font-size: 0.875rem;
+        line-height: 1.45;
+      }
+      .page-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.75rem;
+        padding: 0.5rem 0;
+      }
+      .page-brand-logo {
+        width: 4.8rem;
+        height: 4.8rem;
+        flex: 0 0 auto;
+        filter: drop-shadow(0 10px 24px rgba(var(--bs-primary-rgb), 0.2));
+      }
+      .page-brand-copy {
+        display: flex;
+        flex-direction: column;
+      }
+      .page-brand-title {
+        margin: 0;
+        font-size: clamp(1.75rem, 2vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: var(--bs-emphasis-color);
+      }
+      .page-brand-subtitle {
+        margin: 0;
+        color: var(--bs-secondary-color);
+      }
+      .wizard-nav {
+        gap: 0.75rem;
+        padding-top: 0.5rem;
+      }
+      .wizard-nav .btn {
+        min-width: 9rem;
+        min-height: 3rem;
+        border-radius: 0.2rem;
+        font-weight: 600;
+        box-shadow: none;
+      }
+      .wizard-nav .btn-primary,
+      .wizard-nav .btn-success {
+        background-image: none;
+        background-color: #0d6efd;
+        border-color: transparent;
+      }
+      .wizard-nav .btn-success {
+        background-color: #198754;
+      }
+      .wizard-nav .btn-outline-secondary {
+        background: #fff;
+      }
+      .result-panel {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.2rem;
+        background: #fff;
+      }
+      .result-text {
+        white-space: pre-wrap;
+        margin-bottom: 0;
+      }
+      .result-structured {
+        display: grid;
+        gap: 0.75rem;
+      }
+      .result-section {
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        border-radius: 0.2rem;
+        background: #f8fafc;
+        padding: 0.75rem;
+      }
+      .result-section-title {
+        margin: 0 0 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #475569;
+      }
+      .result-kv {
+        display: grid;
+        grid-template-columns: minmax(120px, 180px) 1fr;
+        gap: 0.25rem 0.75rem;
+      }
+      .result-key {
+        font-weight: 600;
+        color: #334155;
+      }
+      .result-value {
+        color: #0f172a;
+        white-space: pre-wrap;
+      }
+      .result-list {
+        margin: 0;
+        padding-left: 1rem;
+      }
+      .submit-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        color: #334155;
+        font-size: 0.9rem;
+      }
+      .inquiries-list {
+        display: grid;
+        gap: 0.75rem;
+      }
+      .inquiry-item {
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 0.2rem;
+        padding: 0.75rem;
+        background: #fff;
+      }
+      .inquiry-item-title {
+        margin: 0 0 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .inquiry-grid {
+        display: grid;
+        grid-template-columns: minmax(120px, 180px) 1fr;
+        gap: 0.25rem 0.75rem;
+      }
+      .inquiry-key {
+        font-weight: 600;
+        color: #334155;
+      }
+      .inquiry-value {
+        color: #0f172a;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .inquiries-page-label {
+        margin-right: auto;
+        color: #475569;
+        font-size: 0.875rem;
+      }
+      @media (max-width: 1199.98px) {
+        .component-options {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 991.98px) {
+        .component-options {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 575.98px) {
+        .wizard-steps {
+          flex-wrap: wrap;
+        }
+        .wizard-steps::before {
+          display: none;
+        }
+        .component-options {
+          grid-template-columns: 1fr;
+        }
+        .page-brand {
+          flex-direction: column;
+          text-align: center;
+        }
+        .wizard-card .card-body {
+          padding: 1.25rem !important;
+        }
+        .wizard-step {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-body-tertiary">
+    <div class="app-wrapper">
+      <main class="app-main">
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row justify-content-center">
+              <div class="col-lg-10 col-xl-8">
+                <div class="page-brand">
+                  <svg
+                    class="page-brand-logo"
+                    viewBox="0 0 96 96"
+                    role="img"
+                    aria-label="AI Mechanic logo"
+                  >
+                    <defs>
+                      <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#4f8dfd"></stop>
+                        <stop offset="100%" stop-color="#0d6efd"></stop>
+                      </linearGradient>
+                    </defs>
+                    <rect
+                      x="8"
+                      y="8"
+                      width="80"
+                      height="80"
+                      rx="22"
+                      fill="url(#brandGradient)"
+                    ></rect>
+                    <g
+                      fill="none"
+                      stroke="#fff"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="4"
+                    >
+                      <path d="M24 53h7l5-8h10l5 8h8l5-7h8"></path>
+                      <path d="M31 53v-9l7-7h20l7 7v9"></path>
+                      <path d="M37 37v-5"></path>
+                      <path d="M59 37v-5"></path>
+                      <path d="M26 57h6"></path>
+                      <path d="M64 57h6"></path>
+                    </g>
+                    <g fill="#fff">
+                      <circle cx="48" cy="62" r="11" opacity=".2"></circle>
+                      <path
+                        d="M41 66V54h3.2l3.8 6.5 3.8-6.5H55v12h-3v-7l-2.8 4.8h-2.4L44 59v7z"
+                      ></path>
+                    </g>
+                  </svg>
+                  <div class="page-brand-copy">
+                    <h1 class="page-brand-title">AI Mechanic</h1>
+                    <p class="page-brand-subtitle">Tell us about your Car Issue</p>
+                  </div>
+                </div>
+                <div class="card auth-card" id="auth-gate">
+                  <div class="card-body">
+                    <h2 class="auth-title">Login Required</h2>
+                    <p class="auth-copy mb-0">
+                      Sign in with your AI Mechanic account before using the diagnostic wizard.
+                    </p>
+                    <form id="auth-form" class="mt-4" novalidate>
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <label class="form-label" for="auth-username">Username</label>
+                          <input
+                            class="form-control"
+                            id="auth-username"
+                            type="text"
+                            autocomplete="username"
+                            required
+                          />
+                          <div class="invalid-feedback">Username is required.</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label" for="auth-password">Password</label>
+                          <input
+                            class="form-control"
+                            id="auth-password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                          />
+                          <div class="invalid-feedback">Password is required.</div>
+                        </div>
+                      </div>
+                      <div class="auth-actions mt-4">
+                        <button type="submit" class="btn btn-primary" id="auth-submit">
+                          <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
+                          Login
+                        </button>
+                      </div>
+                      <div
+                        class="alert alert-danger d-none auth-feedback"
+                        id="auth-feedback"
+                        role="alert"
+                      ></div>
+                    </form>
+                    <p class="auth-divider">Create account</p>
+                    <form id="register-form" novalidate>
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <label class="form-label" for="register-username">Username</label>
+                          <input
+                            class="form-control"
+                            id="register-username"
+                            type="text"
+                            autocomplete="username"
+                            required
+                          />
+                          <div class="invalid-feedback">Username is required.</div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="register-email">Email</label>
+                          <input
+                            class="form-control"
+                            id="register-email"
+                            type="email"
+                            autocomplete="email"
+                            required
+                          />
+                          <div class="invalid-feedback">A valid email is required.</div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label" for="register-password">Password</label>
+                          <input
+                            class="form-control"
+                            id="register-password"
+                            type="password"
+                            autocomplete="new-password"
+                            required
+                          />
+                          <div class="invalid-feedback">Password is required.</div>
+                        </div>
+                      </div>
+                      <div class="auth-actions mt-4">
+                        <button type="submit" class="btn btn-outline-primary" id="register-submit">
+                          <i class="bi bi-person-plus me-1" aria-hidden="true"></i>
+                          Register
+                        </button>
+                      </div>
+                      <div
+                        class="alert d-none auth-feedback"
+                        id="register-feedback"
+                        role="alert"
+                      ></div>
+                    </form>
+                  </div>
+                </div>
+                <div class="card wizard-card">
+                  <div class="card-body p-4">
+                    <div class="auth-status d-none" id="auth-status">
+                      <p class="auth-status-copy" id="auth-status-copy"></p>
+                      <div class="d-flex gap-2">
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-sm"
+                          id="auth-inquiries-open"
+                        >
+                          <i class="bi bi-clock-history me-1" aria-hidden="true"></i>
+                          Inquiry History
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-secondary btn-sm"
+                          id="auth-logout"
+                        >
+                          <i class="bi bi-box-arrow-right me-1" aria-hidden="true"></i>
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                    <div id="wizard-shell" class="d-none">
+                      <!-- Step indicators -->
+                      <ol class="wizard-steps mb-4" id="wizard-steps">
+                        <li class="active" data-step="0">Vehicle</li>
+                        <li data-step="1">Component</li>
+                        <li data-step="2">Symptoms</li>
+                        <li data-step="3">Review</li>
+                      </ol>
+
+                      <!-- Form -->
+                      <form id="wizard-form" novalidate>
+                        <!-- Step 1 -->
+                        <fieldset class="wizard-step" data-step="0">
+                          <h2 class="h5 mb-3">Tell us about your vehicle</h2>
+                          <div class="row g-3">
+                            <div class="col-md-6">
+                              <label class="form-label d-block">Engine type</label>
+                              <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="wz-engine-type"
+                                    id="wz-engine-type-petrol"
+                                    value="Petrol"
+                                    required
+                                  />
+                                  <label class="form-check-label" for="wz-engine-type-petrol">
+                                    Petrol
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="wz-engine-type"
+                                    id="wz-engine-type-diesel"
+                                    value="Diesel"
+                                    required
+                                  />
+                                  <label class="form-check-label" for="wz-engine-type-diesel">
+                                    Diesel
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="invalid-feedback">Please select an engine type.</div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label d-block">Transmission type</label>
+                              <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="wz-transmission-type"
+                                    id="wz-transmission-type-manual"
+                                    value="Manual"
+                                    required
+                                  />
+                                  <label class="form-check-label" for="wz-transmission-type-manual">
+                                    Manual
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="wz-transmission-type"
+                                    id="wz-transmission-type-automatic"
+                                    value="Automatic"
+                                    required
+                                  />
+                                  <label
+                                    class="form-check-label"
+                                    for="wz-transmission-type-automatic"
+                                  >
+                                    Automatic
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="invalid-feedback">Please select a transmission type.</div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label" for="wz-make">Make</label>
+                              <select class="form-select" id="wz-make" required>
+                                <option value="">Loading makes&hellip;</option>
+                              </select>
+                              <div class="invalid-feedback">Make is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label" for="wz-model">Model</label>
+                              <select class="form-select" id="wz-model" required disabled>
+                                <option value="">Select a make first</option>
+                              </select>
+                              <div class="invalid-feedback">Model is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label" for="wz-year">Year</label>
+                              <select class="form-select" id="wz-year" required>
+                                <option value="">Choose&hellip;</option>
+                                <option value="2027">2027</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                <option value="2014">2014</option>
+                                <option value="2013">2013</option>
+                                <option value="2012">2012</option>
+                                <option value="2011">2011</option>
+                                <option value="2010">2010</option>
+                                <option value="2009">2009</option>
+                                <option value="2008">2008</option>
+                                <option value="2007">2007</option>
+                                <option value="2006">2006</option>
+                                <option value="2005">2005</option>
+                                <option value="2004">2004</option>
+                                <option value="2003">2003</option>
+                                <option value="2002">2002</option>
+                                <option value="2001">2001</option>
+                                <option value="2000">2000</option>
+                                <option value="1999">1999</option>
+                                <option value="1998">1998</option>
+                                <option value="1997">1997</option>
+                                <option value="1996">1996</option>
+                                <option value="1995">1995</option>
+                                <option value="1994">1994</option>
+                                <option value="1993">1993</option>
+                                <option value="1992">1992</option>
+                                <option value="1991">1991</option>
+                                <option value="1990">1990</option>
+                                <option value="1989">1989</option>
+                                <option value="1988">1988</option>
+                                <option value="1987">1987</option>
+                                <option value="1986">1986</option>
+                                <option value="1985">1985</option>
+                                <option value="1984">1984</option>
+                                <option value="1983">1983</option>
+                                <option value="1982">1982</option>
+                                <option value="1981">1981</option>
+                                <option value="1980">1980</option>
+                                <option value="1979">1979</option>
+                                <option value="1978">1978</option>
+                                <option value="1977">1977</option>
+                                <option value="1976">1976</option>
+                                <option value="1975">1975</option>
+                                <option value="1974">1974</option>
+                                <option value="1973">1973</option>
+                                <option value="1972">1972</option>
+                                <option value="1971">1971</option>
+                                <option value="1970">1970</option>
+                              </select>
+                              <div class="invalid-feedback">Please enter a valid model year.</div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label" for="wz-mileage">Mileage</label>
+                              <input
+                                class="form-control"
+                                id="wz-mileage"
+                                type="number"
+                                min="0"
+                                step="1"
+                                placeholder="Enter current mileage"
+                              />
+                            </div>
+                          </div>
+                        </fieldset>
+
+                        <!-- Step 2 -->
+                        <fieldset class="wizard-step d-none" data-step="1">
+                          <h2 class="h5 mb-2">Component details</h2>
+                          <p class="text-secondary mb-4">
+                            Select the vehicle component where the issue is occurring.
+                          </p>
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <label class="form-label d-block">Inspection focus</label>
+                              <div class="component-options">
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-engine"
+                                    value="Engine"
+                                  />
+                                  <label class="component-option" for="wz-component-engine">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Engine</span>
+                                    <span class="component-option-copy"
+                                      >Power loss, rough idle, overheating, smoke, misfires, and
+                                      drivability concerns.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-transmission"
+                                    value="Transmission"
+                                  />
+                                  <label class="component-option" for="wz-component-transmission">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Transmission</span>
+                                    <span class="component-option-copy"
+                                      >Hard shifting, delayed engagement, slipping, fluid concerns,
+                                      and gear selection faults.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-brakes"
+                                    value="Brakes"
+                                  />
+                                  <label class="component-option" for="wz-component-brakes">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-sign-stop-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Brakes</span>
+                                    <span class="component-option-copy"
+                                      >Poor stopping power, pedal feel changes, squeal, grinding,
+                                      vibration, or pulling.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-electrical"
+                                    value="Electrical"
+                                  />
+                                  <label class="component-option" for="wz-component-electrical">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Electrical</span>
+                                    <span class="component-option-copy"
+                                      >Battery drain, charging faults, wiring issues, intermittent
+                                      sensors, and warning circuits.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-suspension"
+                                    value="Suspension"
+                                  />
+                                  <label class="component-option" for="wz-component-suspension">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-truck-front-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Suspension</span>
+                                    <span class="component-option-copy"
+                                      >Ride height, steering stability, uneven tire wear, clunks,
+                                      bounce, and handling issues.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-cooling"
+                                    value="Cooling system"
+                                  />
+                                  <label class="component-option" for="wz-component-cooling">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-thermometer-snow" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Cooling system</span>
+                                    <span class="component-option-copy"
+                                      >Overheating, coolant loss, fan operation, thermostat
+                                      behavior, and radiator flow issues.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-clutch"
+                                    value="Clutch"
+                                  />
+                                  <label class="component-option" for="wz-component-clutch">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-disc-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Clutch</span>
+                                    <span class="component-option-copy"
+                                      >Slipping, engagement point, pedal feel, release noise, and
+                                      shifting under load.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-performance"
+                                    value="Vehicle Performance"
+                                  />
+                                  <label class="component-option" for="wz-component-performance">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Vehicle Performance</span>
+                                    <span class="component-option-copy"
+                                      >Acceleration, fuel economy, sluggish response, loss of power,
+                                      and overall drive performance issues.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-tire"
+                                    value="Tire"
+                                  />
+                                  <label class="component-option" for="wz-component-tire">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-circle-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Tire</span>
+                                    <span class="component-option-copy"
+                                      >Uneven wear, punctures, low pressure, road noise, vibration,
+                                      and traction-related concerns.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-steering"
+                                    value="Steering Wheel"
+                                  />
+                                  <label class="component-option" for="wz-component-steering">
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-compass-fill" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title">Steering Wheel</span>
+                                    <span class="component-option-copy"
+                                      >Loose steering, pulling, stiffness, vibration through the
+                                      wheel, and directional control issues.</span
+                                    >
+                                  </label>
+                                </div>
+                                <div>
+                                  <input
+                                    class="component-option-input"
+                                    type="checkbox"
+                                    name="wz-component"
+                                    id="wz-component-airconditioning"
+                                    value="Airconditioning System"
+                                  />
+                                  <label
+                                    class="component-option"
+                                    for="wz-component-airconditioning"
+                                  >
+                                    <span class="component-option-icon">
+                                      <i class="bi bi-snow2" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="component-option-title"
+                                      >Airconditioning System</span
+                                    >
+                                    <span class="component-option-copy"
+                                      >Weak cooling, no airflow, unusual smells, compressor noise,
+                                      and cabin temperature control problems.</span
+                                    >
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="invalid-feedback">
+                                Please select between 1 and 3 components.
+                              </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="wz-recent-repair"
+                                />
+                                <label class="form-check-label" for="wz-recent-repair">
+                                  Was a recent repair made related to this issue?
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-12 d-none" id="wz-recent-repair-details-group">
+                              <label class="form-label" for="wz-recent-repair-details">
+                                Recent repair details
+                              </label>
+                              <textarea
+                                class="form-control"
+                                id="wz-recent-repair-details"
+                                rows="3"
+                                placeholder="Describe what was repaired, when it was done, and any parts that were replaced."
+                              ></textarea>
+                              <div class="invalid-feedback">
+                                Please provide recent repair details.
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+
+                        <!-- Step 3 -->
+                        <fieldset class="wizard-step d-none" data-step="2">
+                          <h2 class="h5 mb-3">Symptoms observed</h2>
+                          <label class="form-label" for="wz-symptoms">
+                            Describe the symptoms
+                          </label>
+                          <textarea
+                            class="form-control"
+                            id="wz-symptoms"
+                            rows="4"
+                            required
+                            placeholder="Explain when the issue happens, how often, and what the driver notices."
+                          ></textarea>
+                          <div class="invalid-feedback">Please describe the symptoms.</div>
+                          <div class="mt-4">
+                            <label class="form-label" for="wz-scanner-code">
+                              Scanner code (optional)
+                            </label>
+                            <input
+                              class="form-control"
+                              id="wz-scanner-code"
+                              type="text"
+                              placeholder="Enter OBD or fault code, for example P0300"
+                            />
+                          </div>
+                          <div class="mt-4">
+                            <label class="form-label" for="wz-symptom-photos">
+                              Add diagnostic photos or videos (optional)
+                            </label>
+                            <div class="photo-upload-panel">
+                              <input
+                                class="form-control"
+                                id="wz-symptom-photos"
+                                type="file"
+                                accept="image/*,video/*"
+                                multiple
+                              />
+                              <p class="photo-upload-help">
+                                Optional: add up to 5 photos or videos that show the issue clearly
+                                so the AI can diagnose the problem more accurately. You can preview
+                                each file and remove any item before continuing.
+                              </p>
+                              <div id="wz-photo-preview" class="photo-preview-grid"></div>
+                              <p id="wz-photo-empty" class="photo-preview-empty">
+                                No photos selected yet.
+                              </p>
+                            </div>
+                          </div>
+                        </fieldset>
+
+                        <!-- Step 4 -->
+                        <fieldset class="wizard-step d-none" data-step="3">
+                          <h2 class="h5 mb-3">Review &amp; confirm</h2>
+                          <dl class="row mb-3" id="wz-summary"></dl>
+                          <div class="review-media-section">
+                            <p class="review-media-title mb-2">Uploaded diagnostic media</p>
+                            <div id="wz-review-media" class="photo-preview-grid"></div>
+                            <p id="wz-review-media-empty" class="photo-preview-empty mt-0">
+                              No photos or videos selected.
+                            </p>
+                          </div>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="wz-terms"
+                              required
+                            />
+                            <label class="form-check-label" for="wz-terms">
+                              I allow AI Mechanic to analyze the information I provided.
+                            </label>
+                            <div class="invalid-feedback">
+                              You must accept the terms to continue.
+                            </div>
+                          </div>
+                        </fieldset>
+
+                        <!-- Navigation -->
+                        <div class="wizard-nav d-flex justify-content-between mt-4">
+                          <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            id="wz-prev"
+                            disabled
+                          >
+                            <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
+                            Previous
+                          </button>
+                          <button type="button" class="btn btn-primary" id="wz-next">
+                            Next
+                            <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                          </button>
+                          <button type="submit" class="btn btn-success d-none" id="wz-submit">
+                            <i class="bi bi-check-lg me-1" aria-hidden="true"></i>
+                            Submit
+                          </button>
+                        </div>
+                        <div
+                          class="submit-status d-none"
+                          id="wz-submit-status"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                          <span id="wz-submit-status-text">Submitting request...</span>
+                        </div>
+
+                        <section
+                          class="result-panel d-none"
+                          id="wz-result-panel"
+                          aria-live="polite"
+                        >
+                          <h3 class="h6 mb-2">AI Mechanic Result</h3>
+                          <div class="result-structured" id="wz-result-structured"></div>
+                          <p class="result-text d-none" id="wz-result-text"></p>
+                          <div class="row g-2 mt-2">
+                            <div class="col-md-6">
+                              <label class="form-label" for="wz-result-email"
+                                >Email result to</label
+                              >
+                              <input
+                                class="form-control"
+                                id="wz-result-email"
+                                type="email"
+                                placeholder="name@example.com"
+                              />
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end gap-2">
+                              <button
+                                type="button"
+                                class="btn btn-outline-primary"
+                                id="wz-email-result"
+                              >
+                                <i class="bi bi-envelope me-1" aria-hidden="true"></i>
+                                Send to Email
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="wz-print-result"
+                              >
+                                <i class="bi bi-printer me-1" aria-hidden="true"></i>
+                                Print as PDF
+                              </button>
+                            </div>
+                          </div>
+                        </section>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div
+        class="modal fade"
+        id="inquiries-modal"
+        tabindex="-1"
+        aria-labelledby="inquiries-modal-title"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title fs-5" id="inquiries-modal-title">AI Inquiry History</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-none" id="inquiries-loading" role="status" aria-live="polite">
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                Loading inquiries...
+              </div>
+              <div
+                class="alert alert-danger d-none mb-3"
+                id="inquiries-feedback"
+                role="alert"
+              ></div>
+              <div class="inquiries-list" id="inquiries-list"></div>
+            </div>
+            <div class="modal-footer">
+              <span class="inquiries-page-label" id="inquiries-page-label"></span>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="inquiries-prev">
+                <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
+                Previous
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="inquiries-next">
+                Next
+                <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="inquiries-refresh">
+                <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
+                Refresh
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--begin::Footer-->
+      <footer class="app-footer border-0 bg-transparent px-0 pb-4 pt-3">
+        <div class="container-fluid">
+          <div
+            class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 rounded-3 border bg-white px-4 py-3 shadow-sm"
+          >
+            <div>
+              <p class="mb-1 fw-semibold text-body-emphasis">AI Mechanic</p>
+              <p class="mb-0 small text-secondary">
+                Guided vehicle issue intake for faster diagnostics and cleaner repair handoff.
+              </p>
+            </div>
+            <nav aria-label="Footer navigation" class="d-flex flex-wrap gap-3 small">
+              <a href="../index.html" class="link-primary text-decoration-none">Home</a>
+              <a href="../about-us.html" class="link-primary text-decoration-none">About Us</a>
+              <a href="../credits.html" class="link-primary text-decoration-none">Credits</a>
+            </nav>
+            <p class="mb-0 small text-secondary">
+              Copyright &copy; 2026 AI Mechanic. Built with
+              <a href="https://adminlte.io" class="text-decoration-none">AdminLTE</a>.
+            </p>
+          </div>
+        </div>
+      </footer>
+      <!--end::Footer-->
+    </div>
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
+    <script src="../js/adminlte.js"></script>
+    <!--end::Required Plugin(AdminLTE)-->
+    <!--begin::OverlayScrollbars Configure-->
+    <script>
+      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+      const Default = {
+        scrollbarTheme: 'os-theme-light',
+        scrollbarAutoHide: 'leave',
+        scrollbarClickScroll: true,
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+
+        // Disable OverlayScrollbars on mobile devices to prevent touch interference
+        const isMobile = window.innerWidth <= 992;
+
+        if (
+          sidebarWrapper &&
+          OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
+          !isMobile
+        ) {
+          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+      });
+    </script>
+    <!--end::OverlayScrollbars Configure-->
+
+    <!--begin::Color Mode Toggle (#6010)-->
+    <script>
+      (() => {
+        'use strict';
+
+        const STORAGE_KEY = 'lte-theme';
+
+        const getStoredTheme = () => localStorage.getItem(STORAGE_KEY);
+        const setStoredTheme = (theme) => localStorage.setItem(STORAGE_KEY, theme);
+
+        const prefersDark = () => globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const getPreferredTheme = () => {
+          const stored = getStoredTheme();
+          if (stored) return stored;
+          return prefersDark() ? 'dark' : 'light';
+        };
+
+        const setTheme = (theme) => {
+          const resolved = theme === 'auto' ? (prefersDark() ? 'dark' : 'light') : theme;
+          document.documentElement.setAttribute('data-bs-theme', resolved);
+        };
+
+        setTheme(getPreferredTheme());
+
+        const showActiveTheme = (theme) => {
+          // Highlight the active dropdown option
+          document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
+            el.classList.remove('active');
+            el.setAttribute('aria-pressed', 'false');
+            const check = el.querySelector('.bi-check-lg');
+            if (check) check.classList.add('d-none');
+          });
+          const active = document.querySelector(`[data-bs-theme-value="${theme}"]`);
+          if (active) {
+            active.classList.add('active');
+            active.setAttribute('aria-pressed', 'true');
+            const check = active.querySelector('.bi-check-lg');
+            if (check) check.classList.remove('d-none');
+          }
+          // Sync the topbar trigger icon
+          document.querySelectorAll('[data-lte-theme-icon]').forEach((icon) => {
+            icon.classList.toggle('d-none', icon.dataset.lteThemeIcon !== theme);
+          });
+        };
+
+        globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+          const stored = getStoredTheme();
+          if (!stored || stored === 'auto') setTheme(getPreferredTheme());
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+          showActiveTheme(getPreferredTheme());
+          document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
+            toggle.addEventListener('click', () => {
+              const theme = toggle.getAttribute('data-bs-theme-value');
+              setStoredTheme(theme);
+              setTheme(theme);
+              showActiveTheme(theme);
+            });
+          });
+        });
+      })();
+    </script>
+    <!--end::Color Mode Toggle-->
+    <script
+      type="module"
+      src="/_astro/_ai-mechanic-wizard-page.astro_astro_type_script_index_0_lang.B8S6XIIE.js"
+    ></script>
+    <script>
+      const API_ORIGIN = 'http://aimechanic.online';
+      const API_URL = `${API_ORIGIN}/api/cars`;
+      const AUTH_URL = `${API_ORIGIN}/api/auth/login`;
+      const REGISTER_URL = `${API_ORIGIN}/api/auth/register`;
+      const MAKES_URL = `${API_URL}/makes`;
+      const INQUIRIES_URL = `${API_URL}/ai/inquiries`;
+      const AUTH_STORAGE_KEY = 'aiMechanicAuthSession';
+      const api = globalThis.axios?.create({
+        baseURL: API_URL,
+        timeout: 0,
+      });
+
+      function loadAuthSession() {
+        try {
+          const rawValue = globalThis.localStorage?.getItem(AUTH_STORAGE_KEY);
+          if (!rawValue) {
+            return null;
+          }
+
+          const parsedValue = JSON.parse(rawValue);
+          return typeof parsedValue?.token === 'string' && parsedValue.token ? parsedValue : null;
+        } catch {
+          return null;
+        }
+      }
+
+      function saveAuthSession(session) {
+        globalThis.localStorage?.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+      }
+
+      function clearAuthSession() {
+        globalThis.localStorage?.removeItem(AUTH_STORAGE_KEY);
+      }
+
+      function extractAuthToken(data) {
+        if (typeof data?.token === 'string' && data.token) {
+          return data.token;
+        }
+
+        if (typeof data?.accessToken === 'string' && data.accessToken) {
+          return data.accessToken;
+        }
+
+        if (typeof data?.access_token === 'string' && data.access_token) {
+          return data.access_token;
+        }
+
+        if (typeof data?.jwt === 'string' && data.jwt) {
+          return data.jwt;
+        }
+
+        if (typeof data?.data?.token === 'string' && data.data.token) {
+          return data.data.token;
+        }
+
+        if (typeof data?.data?.accessToken === 'string' && data.data.accessToken) {
+          return data.data.accessToken;
+        }
+
+        return '';
+      }
+
+      function extractAuthUser(data, fallbackCredentials) {
+        const source = data?.user && typeof data.user === 'object' ? data.user : data?.data?.user;
+
+        return {
+          username:
+            source?.username ||
+            source?.name ||
+            fallbackCredentials.username ||
+            fallbackCredentials.email,
+          email: source?.email || fallbackCredentials.email,
+        };
+      }
+
+      function withAuthHeaders(headers = {}, token = '') {
+        const nextHeaders = { ...headers };
+        const authToken = token || loadAuthSession()?.token || '';
+
+        if (authToken) {
+          nextHeaders.Authorization = `Bearer ${authToken}`;
+        }
+
+        return nextHeaders;
+      }
+
+      function setOptions(select, items, placeholder) {
+        select.innerHTML = [
+          `<option value="">${placeholder}</option>`,
+          ...items.map(
+            (item) => `<option value="${item.name}" data-id="${item.id}">${item.name}</option>`,
+          ),
+        ].join('');
+      }
+
+      function getResponseText(responseData) {
+        if (typeof responseData === 'string') {
+          return responseData;
+        }
+
+        if (typeof responseData?.response === 'string') {
+          return responseData.response;
+        }
+
+        if (typeof responseData?.answer === 'string') {
+          return responseData.answer;
+        }
+
+        if (typeof responseData?.message === 'string') {
+          return responseData.message;
+        }
+
+        return JSON.stringify(responseData, null, 2);
+      }
+
+      function getApiErrorMessage(error) {
+        const status = Number(error?.response?.status || 0);
+        const data = error?.response?.data;
+        const dataMessage =
+          (typeof data?.message === 'string' && data.message) ||
+          (typeof data?.error === 'string' && data.error) ||
+          (typeof data?.detail === 'string' && data.detail) ||
+          '';
+        const message = String(error?.message || '').toLowerCase();
+        const timeoutLikeError =
+          error?.code === 'ECONNABORTED' ||
+          error?.name === 'AbortError' ||
+          message.includes('timed out') ||
+          message.includes('timeout') ||
+          status === 408 ||
+          status === 504;
+
+        if (timeoutLikeError) {
+          return 'The AI service took too long to respond (timeout). Please try again in a moment.';
+        }
+
+        if (status === 429) {
+          return 'Too many requests were sent to the AI service. Please wait a bit and try again.';
+        }
+
+        if (status === 401) {
+          return 'Your session is no longer valid. Please log in again.';
+        }
+
+        if (status >= 500) {
+          return (
+            dataMessage || `Server error (${status}) from AI service. Please try again shortly.`
+          );
+        }
+
+        if (status >= 400) {
+          return (
+            dataMessage ||
+            `Request failed with status ${status}. Please review your inputs and try again.`
+          );
+        }
+
+        if (error?.request && !error?.response) {
+          return 'No response received from AI service. Please check your internet connection and try again.';
+        }
+
+        return (
+          dataMessage ||
+          String(error?.message || 'Unable to submit request right now. Please try again.')
+        );
+      }
+
+      function toTitleCase(key) {
+        return String(key)
+          .replaceAll(/[_-]+/g, ' ')
+          .replaceAll(/([a-z])([A-Z])/g, '$1 $2')
+          .replaceAll(/\s+/g, ' ')
+          .trim()
+          .replaceAll(/\b\w/g, (char) => char.toUpperCase());
+      }
+
+      function stringifyValue(value) {
+        if (value === null || value === undefined || value === '') {
+          return '—';
+        }
+
+        if (typeof value === 'string') {
+          return value;
+        }
+
+        if (typeof value === 'number' || typeof value === 'boolean') {
+          return String(value);
+        }
+
+        return JSON.stringify(value, null, 2);
+      }
+
+      function appendKeyValueRow(container, key, value) {
+        const keyElement = document.createElement('div');
+        keyElement.className = 'result-key';
+        keyElement.textContent = toTitleCase(key);
+
+        const valueElement = document.createElement('div');
+        valueElement.className = 'result-value';
+        valueElement.textContent = stringifyValue(value);
+
+        container.append(keyElement, valueElement);
+      }
+
+      function appendListValue(listElement, item) {
+        const listItem = document.createElement('li');
+        listItem.className = 'result-value';
+        listItem.textContent = stringifyValue(item);
+        listElement.append(listItem);
+      }
+
+      function renderResponseStructured(container, data) {
+        container.innerHTML = '';
+
+        if (!data || Array.isArray(data) || typeof data !== 'object') {
+          return false;
+        }
+
+        const entries = Object.entries(data);
+        if (entries.length === 0) {
+          return false;
+        }
+
+        const overviewSection = document.createElement('section');
+        overviewSection.className = 'result-section';
+        const overviewTitle = document.createElement('h4');
+        overviewTitle.className = 'result-section-title';
+        overviewTitle.textContent = 'Overview';
+        const overviewGrid = document.createElement('div');
+        overviewGrid.className = 'result-kv';
+
+        let hasOverviewRows = false;
+
+        entries.forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            const section = document.createElement('section');
+            section.className = 'result-section';
+            const title = document.createElement('h4');
+            title.className = 'result-section-title';
+            title.textContent = toTitleCase(key);
+            section.append(title);
+
+            if (value.length === 0) {
+              const emptyValue = document.createElement('p');
+              emptyValue.className = 'result-value mb-0';
+              emptyValue.textContent = '—';
+              section.append(emptyValue);
+            } else {
+              const list = document.createElement('ul');
+              list.className = 'result-list';
+              value.forEach((item) => appendListValue(list, item));
+              section.append(list);
+            }
+
+            container.append(section);
+            return;
+          }
+
+          if (value && typeof value === 'object') {
+            const section = document.createElement('section');
+            section.className = 'result-section';
+            const title = document.createElement('h4');
+            title.className = 'result-section-title';
+            title.textContent = toTitleCase(key);
+            const nestedGrid = document.createElement('div');
+            nestedGrid.className = 'result-kv';
+
+            Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+              appendKeyValueRow(nestedGrid, nestedKey, nestedValue);
+            });
+
+            section.append(title, nestedGrid);
+            container.append(section);
+            return;
+          }
+
+          appendKeyValueRow(overviewGrid, key, value);
+          hasOverviewRows = true;
+        });
+
+        if (hasOverviewRows) {
+          overviewSection.append(overviewTitle, overviewGrid);
+          container.prepend(overviewSection);
+        }
+
+        return container.childElementCount > 0;
+      }
+
+      async function loginUser(credentials) {
+        if (api) {
+          const response = await globalThis.axios.post(AUTH_URL, credentials, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          return response.data;
+        }
+
+        const response = await fetch(AUTH_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(credentials),
+        });
+
+        if (!response.ok) {
+          const errorBody = await response.text();
+          const requestError = new Error(
+            `Request failed with status ${response.status}${errorBody ? `: ${errorBody}` : ''}`,
+          );
+          requestError.status = response.status;
+          throw requestError;
+        }
+
+        return response.json();
+      }
+
+      async function registerUser(payload) {
+        if (api) {
+          const response = await globalThis.axios.post(REGISTER_URL, payload, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          return response.data;
+        }
+
+        const response = await fetch(REGISTER_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorBody = await response.text();
+          const requestError = new Error(
+            `Request failed with status ${response.status}${errorBody ? `: ${errorBody}` : ''}`,
+          );
+          requestError.status = response.status;
+          throw requestError;
+        }
+
+        return response.json();
+      }
+
+      async function postAiAsk(payload) {
+        if (api) {
+          const response = await api.post('/ai/ask', payload, {
+            headers: withAuthHeaders({
+              'Content-Type': 'application/json',
+            }),
+          });
+
+          const data = response.data;
+          if (typeof data === 'string') {
+            const trimmed = data.trim();
+            if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+              try {
+                return JSON.parse(trimmed);
+              } catch {
+                return data;
+              }
+            }
+          }
+
+          return data;
+        }
+
+        const response = await fetch(`${API_URL}/ai/ask`, {
+          method: 'POST',
+          headers: withAuthHeaders({
+            'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorBody = await response.text();
+          const requestError = new Error(
+            `Request failed with status ${response.status}${errorBody ? `: ${errorBody}` : ''}`,
+          );
+          requestError.status = response.status;
+          throw requestError;
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          return await response.json();
+        }
+
+        const text = await response.text();
+        const trimmed = text.trim();
+        if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+          try {
+            return JSON.parse(trimmed);
+          } catch {
+            return text;
+          }
+        }
+
+        return text;
+      }
+
+      async function getAiInquiries(page, size) {
+        if (api) {
+          const response = await api.get('/ai/inquiries', {
+            params: { page, size },
+            headers: withAuthHeaders(),
+          });
+
+          return response.data;
+        }
+
+        const response = await fetch(`${INQUIRIES_URL}?page=${page}&size=${size}`, {
+          method: 'GET',
+          headers: withAuthHeaders(),
+        });
+
+        if (!response.ok) {
+          const errorBody = await response.text();
+          const requestError = new Error(
+            `Request failed with status ${response.status}${errorBody ? `: ${errorBody}` : ''}`,
+          );
+          requestError.status = response.status;
+          throw requestError;
+        }
+
+        return response.json();
+      }
+
+      function normalizeInquiriesResponse(data, fallbackPage, fallbackSize) {
+        if (Array.isArray(data)) {
+          return {
+            items: data,
+            page: fallbackPage,
+            size: fallbackSize,
+            totalPages: data.length < fallbackSize ? fallbackPage + 1 : fallbackPage + 2,
+            totalElements: null,
+          };
+        }
+
+        if (data && typeof data === 'object') {
+          const items =
+            (Array.isArray(data.content) && data.content) ||
+            (Array.isArray(data.items) && data.items) ||
+            (Array.isArray(data.data) && data.data) ||
+            [];
+          const pageValue = Number.isFinite(Number(data.number))
+            ? Number(data.number)
+            : Number.isFinite(Number(data.page))
+              ? Number(data.page)
+              : fallbackPage;
+          const sizeValue = Number.isFinite(Number(data.size)) ? Number(data.size) : fallbackSize;
+          const totalPagesValue = Number.isFinite(Number(data.totalPages))
+            ? Number(data.totalPages)
+            : items.length < sizeValue
+              ? pageValue + 1
+              : pageValue + 2;
+          const totalElementsValue = Number.isFinite(Number(data.totalElements))
+            ? Number(data.totalElements)
+            : null;
+
+          return {
+            items,
+            page: pageValue,
+            size: sizeValue,
+            totalPages: Math.max(totalPagesValue, 1),
+            totalElements: totalElementsValue,
+          };
+        }
+
+        return {
+          items: [],
+          page: fallbackPage,
+          size: fallbackSize,
+          totalPages: 1,
+          totalElements: null,
+        };
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const authGate = document.getElementById('auth-gate');
+        const authForm = document.getElementById('auth-form');
+        const authUsernameInput = document.getElementById('auth-username');
+        const authPasswordInput = document.getElementById('auth-password');
+        const authSubmitButton = document.getElementById('auth-submit');
+        const authFeedback = document.getElementById('auth-feedback');
+        const registerForm = document.getElementById('register-form');
+        const registerUsernameInput = document.getElementById('register-username');
+        const registerEmailInput = document.getElementById('register-email');
+        const registerPasswordInput = document.getElementById('register-password');
+        const registerSubmitButton = document.getElementById('register-submit');
+        const registerFeedback = document.getElementById('register-feedback');
+        const authStatus = document.getElementById('auth-status');
+        const authStatusCopy = document.getElementById('auth-status-copy');
+        const authInquiriesOpenButton = document.getElementById('auth-inquiries-open');
+        const authLogoutButton = document.getElementById('auth-logout');
+        const inquiriesModalElement = document.getElementById('inquiries-modal');
+        const inquiriesLoading = document.getElementById('inquiries-loading');
+        const inquiriesFeedback = document.getElementById('inquiries-feedback');
+        const inquiriesList = document.getElementById('inquiries-list');
+        const inquiriesPageLabel = document.getElementById('inquiries-page-label');
+        const inquiriesPrevButton = document.getElementById('inquiries-prev');
+        const inquiriesNextButton = document.getElementById('inquiries-next');
+        const inquiriesRefreshButton = document.getElementById('inquiries-refresh');
+        const wizardShell = document.getElementById('wizard-shell');
+        const form = document.getElementById('wizard-form');
+        const steps = form.querySelectorAll('.wizard-step');
+        const indicators = document.querySelectorAll('#wizard-steps li');
+        const prevBtn = document.getElementById('wz-prev');
+        const nextBtn = document.getElementById('wz-next');
+        const submitBtn = document.getElementById('wz-submit');
+        const submitStatus = document.getElementById('wz-submit-status');
+        const submitStatusText = document.getElementById('wz-submit-status-text');
+        const resultPanel = document.getElementById('wz-result-panel');
+        const resultStructured = document.getElementById('wz-result-structured');
+        const resultText = document.getElementById('wz-result-text');
+        const resultEmailInput = document.getElementById('wz-result-email');
+        const emailResultBtn = document.getElementById('wz-email-result');
+        const printResultBtn = document.getElementById('wz-print-result');
+        const makeSelect = document.getElementById('wz-make');
+        const modelSelect = document.getElementById('wz-model');
+        const mileageInput = document.getElementById('wz-mileage');
+        const recentRepairCheckbox = document.getElementById('wz-recent-repair');
+        const recentRepairDetailsGroup = document.getElementById('wz-recent-repair-details-group');
+        const recentRepairDetailsInput = document.getElementById('wz-recent-repair-details');
+        const symptomPhotoInput = document.getElementById('wz-symptom-photos');
+        const photoPreview = document.getElementById('wz-photo-preview');
+        const photoEmpty = document.getElementById('wz-photo-empty');
+        const reviewMediaPreview = document.getElementById('wz-review-media');
+        const reviewMediaEmpty = document.getElementById('wz-review-media-empty');
+        const componentInputs = form.querySelectorAll('input[name="wz-component"]');
+        const concernLabelMap = {
+          Brakes: 'brake System',
+          'Vehicle Performance': 'Car Performance',
+          Suspension: 'Driving Comfort',
+        };
+        const symptomPhotos = new DataTransfer();
+        const inquiriesModal = globalThis.bootstrap?.Modal
+          ? new globalThis.bootstrap.Modal(inquiriesModalElement)
+          : null;
+        const inquiriesState = {
+          page: 0,
+          size: 10,
+          totalPages: 1,
+          totalElements: null,
+        };
+        let authSession = loadAuthSession();
+        let makesLoaded = false;
+        let current = 0;
+        let latestResponseText = '';
+
+        const setAuthFeedback = (message = '') => {
+          authFeedback.textContent = message;
+          authFeedback.classList.toggle('d-none', !message);
+        };
+
+        const setRegisterFeedback = (message = '', type = 'danger') => {
+          registerFeedback.textContent = message;
+          registerFeedback.classList.toggle('d-none', !message);
+          registerFeedback.classList.toggle('alert-danger', type === 'danger');
+          registerFeedback.classList.toggle('alert-success', type === 'success');
+        };
+
+        const updateAuthenticatedUi = () => {
+          const isAuthenticated = Boolean(authSession?.token);
+          authGate.classList.toggle('d-none', isAuthenticated);
+          authStatus.classList.toggle('d-none', !isAuthenticated);
+          wizardShell.classList.toggle('d-none', !isAuthenticated);
+
+          if (isAuthenticated) {
+            const label = authSession.user?.username || authSession.user?.email || 'Signed in';
+            authStatusCopy.textContent = `Signed in as ${label}`;
+          } else {
+            authStatusCopy.textContent = '';
+          }
+        };
+
+        const setInquiriesLoading = (loading) => {
+          inquiriesLoading.classList.toggle('d-none', !loading);
+          inquiriesRefreshButton.disabled = loading;
+          inquiriesPrevButton.disabled = loading || inquiriesState.page <= 0;
+          inquiriesNextButton.disabled =
+            loading || inquiriesState.page >= inquiriesState.totalPages - 1;
+        };
+
+        const setInquiriesFeedback = (message = '') => {
+          inquiriesFeedback.textContent = message;
+          inquiriesFeedback.classList.toggle('d-none', !message);
+        };
+
+        const setInquiriesPageLabel = () => {
+          const displayPage = inquiriesState.page + 1;
+          const displayTotalPages = Math.max(inquiriesState.totalPages, 1);
+          if (
+            Number.isFinite(inquiriesState.totalElements) &&
+            inquiriesState.totalElements !== null
+          ) {
+            inquiriesPageLabel.textContent = `Page ${displayPage} of ${displayTotalPages} • ${inquiriesState.totalElements} total`;
+            return;
+          }
+
+          inquiriesPageLabel.textContent = `Page ${displayPage} of ${displayTotalPages}`;
+        };
+
+        const renderInquiryItem = (item, index) => {
+          const container = document.createElement('article');
+          container.className = 'inquiry-item';
+
+          const title = document.createElement('h3');
+          title.className = 'inquiry-item-title';
+          const summaryId = item?.id || item?.inquiryId || item?.requestId;
+          title.textContent = summaryId ? `Inquiry ${summaryId}` : `Inquiry ${index + 1}`;
+          container.append(title);
+
+          const grid = document.createElement('div');
+          grid.className = 'inquiry-grid';
+
+          if (!item || typeof item !== 'object') {
+            const keyEl = document.createElement('div');
+            keyEl.className = 'inquiry-key';
+            keyEl.textContent = 'Value';
+            const valueEl = document.createElement('div');
+            valueEl.className = 'inquiry-value';
+            valueEl.textContent = stringifyValue(item);
+            grid.append(keyEl, valueEl);
+            container.append(grid);
+            return container;
+          }
+
+          Object.entries(item).forEach(([key, value]) => {
+            const keyEl = document.createElement('div');
+            keyEl.className = 'inquiry-key';
+            keyEl.textContent = toTitleCase(key);
+
+            const valueEl = document.createElement('div');
+            valueEl.className = 'inquiry-value';
+            valueEl.textContent = stringifyValue(value);
+
+            grid.append(keyEl, valueEl);
+          });
+
+          container.append(grid);
+          return container;
+        };
+
+        const renderInquiries = (items) => {
+          inquiriesList.innerHTML = '';
+
+          if (!Array.isArray(items) || items.length === 0) {
+            const emptyState = document.createElement('p');
+            emptyState.className = 'mb-0 text-secondary';
+            emptyState.textContent = 'No inquiry records found for this page.';
+            inquiriesList.append(emptyState);
+            return;
+          }
+
+          items.forEach((item, index) => {
+            const card = renderInquiryItem(item, index);
+            inquiriesList.append(card);
+          });
+        };
+
+        const loadInquiries = async () => {
+          if (!authSession?.token) {
+            setInquiriesFeedback('Please log in first.');
+            return;
+          }
+
+          setInquiriesFeedback('');
+          setInquiriesLoading(true);
+
+          try {
+            const response = await getAiInquiries(inquiriesState.page, inquiriesState.size);
+            const normalized = normalizeInquiriesResponse(
+              response,
+              inquiriesState.page,
+              inquiriesState.size,
+            );
+
+            inquiriesState.page = normalized.page;
+            inquiriesState.size = normalized.size;
+            inquiriesState.totalPages = normalized.totalPages;
+            inquiriesState.totalElements = normalized.totalElements;
+
+            renderInquiries(normalized.items);
+            setInquiriesPageLabel();
+          } catch (error) {
+            console.error('Failed to load inquiry history', error);
+            setInquiriesFeedback(getApiErrorMessage(error));
+            inquiriesList.innerHTML = '';
+          } finally {
+            setInquiriesLoading(false);
+          }
+        };
+
+        const resetAuthentication = () => {
+          authSession = null;
+          clearAuthSession();
+          updateAuthenticatedUi();
+          setAuthFeedback('');
+          authPasswordInput.value = '';
+          makesLoaded = false;
+          inquiriesState.page = 0;
+          inquiriesState.totalPages = 1;
+          inquiriesState.totalElements = null;
+          setInquiriesFeedback('');
+          inquiriesList.innerHTML = '';
+          setInquiriesPageLabel();
+          inquiriesModal?.hide();
+          makeSelect.innerHTML = '<option value="">Login to load makes</option>';
+          makeSelect.disabled = true;
+          resetModels('Login to load models', true);
+        };
+
+        const ensureMakesLoaded = async () => {
+          if (!authSession?.token || makesLoaded) {
+            return;
+          }
+
+          await loadMakes();
+          makesLoaded = true;
+        };
+
+        const getCheckedValues = (name) =>
+          Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(
+            (input) => input.value,
+          );
+
+        const getCheckedValue = (name) =>
+          form.querySelector(`input[name="${name}"]:checked`)?.value || '—';
+
+        const getEmailBody = () => {
+          const summary = [
+            `Vehicle: ${document.getElementById('wz-make').value} ${document.getElementById('wz-model').value} ${document.getElementById('wz-year').value}`,
+            `Engine: ${getCheckedValue('wz-engine-type')}`,
+            `Transmission: ${getCheckedValue('wz-transmission-type')}`,
+            `Mileage: ${mileageInput.value || '—'}`,
+            '',
+            'AI Mechanic Result:',
+            latestResponseText,
+          ];
+
+          return summary.join('\n');
+        };
+
+        const printResultAsPdf = () => {
+          const printWindow = globalThis.open('', '_blank', 'width=900,height=700');
+
+          if (!printWindow) {
+            alert('Pop-up blocked. Please allow pop-ups to print the result.');
+            return;
+          }
+
+          const printableContent = `
+            <!doctype html>
+            <html>
+              <head>
+                <meta charset="utf-8" />
+                <title>AI Mechanic Result</title>
+                <style>
+                  body { font-family: Arial, sans-serif; padding: 24px; color: #111827; }
+                  h1 { margin: 0 0 16px; font-size: 22px; }
+                  p { margin: 8px 0; }
+                  .result { white-space: pre-wrap; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; }
+                </style>
+              </head>
+              <body>
+                <h1>AI Mechanic Result</h1>
+                <p><strong>Vehicle:</strong> ${document.getElementById('wz-make').value} ${document.getElementById('wz-model').value} ${document.getElementById('wz-year').value}</p>
+                <p><strong>Engine:</strong> ${getCheckedValue('wz-engine-type')}</p>
+                <p><strong>Transmission:</strong> ${getCheckedValue('wz-transmission-type')}</p>
+                <p><strong>Mileage:</strong> ${mileageInput.value || '—'}</p>
+                <div class="result">${latestResponseText}</div>
+              </body>
+            </html>
+          `;
+
+          printWindow.document.open();
+          printWindow.document.write(printableContent);
+          printWindow.document.close();
+          printWindow.focus();
+          printWindow.print();
+        };
+
+        componentInputs.forEach((input) => {
+          input.addEventListener('change', (event) => {
+            const selectedComponents = getCheckedValues('wz-component');
+
+            if (selectedComponents.length > 3) {
+              event.target.checked = false;
+            }
+          });
+        });
+
+        const resetModels = (placeholder, disabled = true) => {
+          modelSelect.innerHTML = `<option value="">${placeholder}</option>`;
+          modelSelect.disabled = disabled;
+          modelSelect.value = '';
+        };
+
+        const syncRecentRepairDetailsState = () => {
+          const hasRecentRepair = recentRepairCheckbox.checked;
+          recentRepairDetailsGroup.classList.toggle('d-none', !hasRecentRepair);
+          recentRepairDetailsInput.required = hasRecentRepair;
+
+          if (!hasRecentRepair) {
+            recentRepairDetailsInput.value = '';
+            recentRepairDetailsInput.classList.remove('is-invalid');
+          }
+        };
+
+        const syncSymptomPhotos = () => {
+          symptomPhotoInput.files = symptomPhotos.files;
+        };
+
+        const renderMediaPreview = (container, emptyState, files) => {
+          container.innerHTML = '';
+          emptyState.classList.toggle('d-none', files.length > 0);
+
+          files.forEach((file, index) => {
+            const card = document.createElement('div');
+            card.className = 'photo-preview-card';
+
+            const mediaUrl = URL.createObjectURL(file);
+            let media;
+
+            if (file.type.startsWith('video/')) {
+              media = document.createElement('video');
+              media.controls = true;
+              media.preload = 'metadata';
+              media.addEventListener(
+                'loadeddata',
+                () => {
+                  URL.revokeObjectURL(mediaUrl);
+                },
+                { once: true },
+              );
+            } else {
+              media = document.createElement('img');
+              media.alt = file.name;
+              media.addEventListener(
+                'load',
+                () => {
+                  URL.revokeObjectURL(mediaUrl);
+                },
+                { once: true },
+              );
+            }
+
+            media.className = 'photo-preview-media';
+            media.src = mediaUrl;
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'photo-preview-remove';
+            removeButton.setAttribute('aria-label', `Remove ${file.name}`);
+            removeButton.innerHTML = '<i class="bi bi-x-lg" aria-hidden="true"></i>';
+            removeButton.addEventListener('click', () => {
+              const nextFiles = Array.from(symptomPhotos.files).filter(
+                (_, fileIndex) => fileIndex !== index,
+              );
+              symptomPhotos.items.clear();
+              nextFiles.forEach((nextFile) => symptomPhotos.items.add(nextFile));
+              syncSymptomPhotos();
+              renderSymptomPhotos();
+            });
+
+            if (container === reviewMediaPreview) {
+              removeButton.classList.add('d-none');
+            }
+
+            const meta = document.createElement('div');
+            meta.className = 'photo-preview-meta';
+            meta.innerHTML = `<span class="photo-preview-name">${file.name}</span>`;
+
+            card.append(media, removeButton, meta);
+            container.append(card);
+          });
+        };
+
+        const renderSymptomPhotos = () => {
+          const files = Array.from(symptomPhotos.files);
+          renderMediaPreview(photoPreview, photoEmpty, files);
+        };
+
+        const renderReviewMedia = () => {
+          const files = Array.from(symptomPhotos.files);
+          renderMediaPreview(reviewMediaPreview, reviewMediaEmpty, files);
+        };
+
+        symptomPhotoInput.addEventListener('change', (event) => {
+          const incomingFiles = Array.from(event.target.files || []);
+
+          incomingFiles.forEach((file) => {
+            if (symptomPhotos.files.length < 5) {
+              symptomPhotos.items.add(file);
+            }
+          });
+
+          syncSymptomPhotos();
+          renderSymptomPhotos();
+        });
+
+        const loadModels = async (makeId, fallbackModels = []) => {
+          resetModels('Loading models…', true);
+
+          try {
+            const response = await fetch(`${MAKES_URL}/${makeId}/models`, {
+              headers: withAuthHeaders(),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Unable to load models for make ${makeId}`);
+            }
+
+            const models = await response.json();
+            setOptions(modelSelect, models, 'Choose…');
+            modelSelect.disabled = false;
+          } catch (error) {
+            if (fallbackModels.length > 0) {
+              setOptions(modelSelect, fallbackModels, 'Choose…');
+              modelSelect.disabled = false;
+              return;
+            }
+
+            resetModels('Unable to load models', true);
+            console.error(error);
+          }
+        };
+
+        const loadMakes = async () => {
+          try {
+            const response = await fetch(MAKES_URL, {
+              headers: withAuthHeaders(),
+            });
+
+            if (!response.ok) {
+              throw new Error('Unable to load makes');
+            }
+
+            const makes = await response.json();
+            setOptions(makeSelect, makes, 'Choose…');
+            makeSelect.disabled = false;
+
+            makeSelect.addEventListener('change', async (event) => {
+              const selectedOption = event.target.selectedOptions[0];
+              const makeId = selectedOption?.dataset.id;
+              const selectedMake = makes.find((item) => String(item.id) === String(makeId));
+
+              if (!makeId) {
+                resetModels('Select a make first', true);
+                return;
+              }
+
+              await loadModels(makeId, selectedMake?.models ?? []);
+            });
+          } catch (error) {
+            makeSelect.innerHTML = '<option value="">Unable to load makes</option>';
+            makeSelect.disabled = true;
+            resetModels('Models unavailable', true);
+            console.error(error);
+          }
+        };
+
+        const show = (i) => {
+          steps.forEach((s, idx) => s.classList.toggle('d-none', idx !== i));
+          indicators.forEach((li, idx) => {
+            li.classList.toggle('active', idx === i);
+            li.classList.toggle('completed', idx < i);
+          });
+          prevBtn.disabled = i === 0;
+          const last = i === steps.length - 1;
+          nextBtn.classList.toggle('d-none', last);
+          submitBtn.classList.toggle('d-none', !last);
+          if (last) renderSummary();
+        };
+
+        const validateStep = (i) => {
+          const step = steps[i];
+          const fields = step.querySelectorAll('input, select, textarea');
+          let valid = true;
+          fields.forEach((field) => {
+            field.classList.remove('is-invalid');
+            if (!field.checkValidity()) {
+              field.classList.add('is-invalid');
+              valid = false;
+            }
+          });
+
+          if (i === 1) {
+            const selectedComponents = getCheckedValues('wz-component');
+            const componentValid = selectedComponents.length > 0 && selectedComponents.length <= 3;
+
+            componentInputs.forEach((input) => {
+              input.classList.toggle('is-invalid', !componentValid);
+            });
+
+            if (!componentValid) {
+              valid = false;
+            }
+          }
+
+          return valid;
+        };
+
+        const renderSummary = () => {
+          const summary = document.getElementById('wz-summary');
+          const get = (id) => document.getElementById(id);
+          const selectedComponents = getCheckedValues('wz-component');
+          let recentRepairValue = 'No';
+          if (recentRepairCheckbox.checked) {
+            recentRepairValue = recentRepairDetailsInput.value || 'Yes';
+          }
+          const rows = [
+            ['Vehicle', `${get('wz-make').value} ${get('wz-model').value} ${get('wz-year').value}`],
+            ['Mileage', mileageInput.value ? `${mileageInput.value} mi` : '—'],
+            ['Engine type', getCheckedValue('wz-engine-type')],
+            ['Transmission type', getCheckedValue('wz-transmission-type')],
+            ['Components', selectedComponents.join(', ') || '—'],
+            ['Recent repair', recentRepairValue],
+            ['Symptom details', get('wz-symptoms').value],
+            ['Scanner code', get('wz-scanner-code').value || '—'],
+          ];
+          summary.innerHTML = rows
+            .map(
+              ([k, v]) =>
+                `<dt class="col-sm-4 text-secondary fw-normal">${k}</dt><dd class="col-sm-8 fw-semibold">${v}</dd>`,
+            )
+            .join('');
+          renderReviewMedia();
+        };
+
+        nextBtn.addEventListener('click', () => {
+          if (!validateStep(current)) return;
+          if (current < steps.length - 1) {
+            current++;
+            show(current);
+          }
+        });
+
+        prevBtn.addEventListener('click', () => {
+          if (current > 0) {
+            current--;
+            show(current);
+          }
+        });
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!validateStep(current)) return;
+
+          const selectedComponents = getCheckedValues('wz-component');
+          const symptomText = document.getElementById('wz-symptoms').value.trim();
+          const normalizedConcerns = selectedComponents.map(
+            (component) => concernLabelMap[component] || component,
+          );
+          let recentRepairDetails = '';
+          if (recentRepairCheckbox.checked) {
+            recentRepairDetails = recentRepairDetailsInput.value.trim();
+          }
+
+          const payload = {
+            make: document.getElementById('wz-make').value,
+            model: document.getElementById('wz-model').value,
+            year: Number.parseInt(document.getElementById('wz-year').value, 10),
+            engine: getCheckedValue('wz-engine-type'),
+            transmission: getCheckedValue('wz-transmission-type').toLowerCase(),
+            mileage: mileageInput.value ? Number.parseInt(mileageInput.value, 10) : null,
+            recent_repair_related_to_issue: recentRepairDetails,
+            areas_of_concern: normalizedConcerns,
+            scanner_code: document.getElementById('wz-scanner-code').value.trim(),
+            symptoms: symptomText ? [symptomText] : [],
+          };
+
+          submitBtn.disabled = true;
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          let submitSucceeded = false;
+          const submitStartedAt = Date.now();
+          submitStatusText.textContent = 'Submitting request to AI Mechanic. Please wait... (0s)';
+          submitStatus.classList.remove('d-none');
+          const submitStatusIntervalId = globalThis.setInterval(() => {
+            const elapsedSeconds = Math.floor((Date.now() - submitStartedAt) / 1000);
+            submitStatusText.textContent = `Submitting request to AI Mechanic. Please wait... (${elapsedSeconds}s)`;
+          }, 1000);
+
+          try {
+            const result = await postAiAsk(payload);
+
+            const responseOutput = getResponseText(result);
+            const hasStructuredResponse = renderResponseStructured(resultStructured, result);
+            latestResponseText = responseOutput;
+            resultText.textContent = responseOutput;
+            resultText.classList.toggle('d-none', hasStructuredResponse);
+            resultPanel.classList.remove('d-none');
+            console.log('AI mechanic response', result);
+            submitSucceeded = true;
+          } catch (error) {
+            console.error('Failed to submit AI mechanic request', error);
+            alert(getApiErrorMessage(error));
+          } finally {
+            globalThis.clearInterval(submitStatusIntervalId);
+            submitBtn.disabled = submitSucceeded;
+            submitStatus.classList.add('d-none');
+            show(current);
+          }
+        });
+
+        emailResultBtn.addEventListener('click', () => {
+          if (!latestResponseText) {
+            alert('No result available yet.');
+            return;
+          }
+
+          if (!resultEmailInput.checkValidity()) {
+            resultEmailInput.reportValidity();
+            return;
+          }
+
+          const subject = 'AI Mechanic Diagnostic Result';
+          const body = getEmailBody();
+          const mailtoUrl = `mailto:${encodeURIComponent(resultEmailInput.value)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          globalThis.location.href = mailtoUrl;
+        });
+
+        printResultBtn.addEventListener('click', () => {
+          if (!latestResponseText) {
+            alert('No result available yet.');
+            return;
+          }
+
+          printResultAsPdf();
+        });
+
+        recentRepairCheckbox.addEventListener('change', () => {
+          syncRecentRepairDetailsState();
+        });
+
+        authForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          setAuthFeedback('');
+          setRegisterFeedback('');
+
+          const authFields = [authUsernameInput, authPasswordInput];
+          let authValid = true;
+          authFields.forEach((field) => {
+            field.classList.remove('is-invalid');
+            if (!field.checkValidity()) {
+              field.classList.add('is-invalid');
+              authValid = false;
+            }
+          });
+
+          if (!authValid) {
+            return;
+          }
+
+          const credentials = {
+            username: authUsernameInput.value.trim(),
+            password: authPasswordInput.value,
+          };
+
+          authSubmitButton.disabled = true;
+
+          try {
+            const result = await loginUser(credentials);
+            const token = extractAuthToken(result);
+
+            if (!token) {
+              throw new Error('Login succeeded but no access token was returned.');
+            }
+
+            authSession = {
+              token,
+              user: extractAuthUser(result, credentials),
+            };
+            saveAuthSession(authSession);
+            authPasswordInput.value = '';
+            updateAuthenticatedUi();
+            await ensureMakesLoaded();
+          } catch (error) {
+            console.error('Login failed', error);
+            setAuthFeedback(getApiErrorMessage(error));
+          } finally {
+            authSubmitButton.disabled = false;
+          }
+        });
+
+        registerForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          setRegisterFeedback('');
+          setAuthFeedback('');
+
+          const registerFields = [registerUsernameInput, registerEmailInput, registerPasswordInput];
+          let registerValid = true;
+          registerFields.forEach((field) => {
+            field.classList.remove('is-invalid');
+            if (!field.checkValidity()) {
+              field.classList.add('is-invalid');
+              registerValid = false;
+            }
+          });
+
+          if (!registerValid) {
+            return;
+          }
+
+          const registerPayload = {
+            username: registerUsernameInput.value.trim(),
+            password: registerPasswordInput.value,
+            email: registerEmailInput.value.trim(),
+          };
+
+          registerSubmitButton.disabled = true;
+
+          try {
+            await registerUser(registerPayload);
+            setRegisterFeedback('Registration successful. You can now log in.', 'success');
+            authUsernameInput.value = registerPayload.username;
+            authPasswordInput.value = registerPayload.password;
+            registerPasswordInput.value = '';
+          } catch (error) {
+            console.error('Registration failed', error);
+            setRegisterFeedback(getApiErrorMessage(error), 'danger');
+          } finally {
+            registerSubmitButton.disabled = false;
+          }
+        });
+
+        authLogoutButton.addEventListener('click', () => {
+          resetAuthentication();
+        });
+
+        authInquiriesOpenButton.addEventListener('click', async () => {
+          inquiriesState.page = 0;
+          setInquiriesPageLabel();
+          inquiriesModal?.show();
+          await loadInquiries();
+        });
+
+        inquiriesPrevButton.addEventListener('click', async () => {
+          if (inquiriesState.page <= 0) {
+            return;
+          }
+
+          inquiriesState.page -= 1;
+          await loadInquiries();
+        });
+
+        inquiriesNextButton.addEventListener('click', async () => {
+          if (inquiriesState.page >= inquiriesState.totalPages - 1) {
+            return;
+          }
+
+          inquiriesState.page += 1;
+          await loadInquiries();
+        });
+
+        inquiriesRefreshButton.addEventListener('click', async () => {
+          await loadInquiries();
+        });
+
+        syncRecentRepairDetailsState();
+        renderSymptomPhotos();
+        setInquiriesPageLabel();
+        show(0);
+        updateAuthenticatedUi();
+
+        if (authSession?.user?.username) {
+          authUsernameInput.value = authSession.user.username;
+          registerUsernameInput.value = authSession.user.username;
+        }
+
+        if (authSession?.user?.email) {
+          registerEmailInput.value = authSession.user.email;
+        }
+
+        if (authSession?.token) {
+          ensureMakesLoaded().catch((error) => {
+            console.error('Failed to restore authenticated session', error);
+            resetAuthentication();
+            setAuthFeedback('Your saved session could not be restored. Please log in again.');
+          });
+        } else {
+          makeSelect.innerHTML = '<option value="">Login to load makes</option>';
+          makeSelect.disabled = true;
+          resetModels('Login to load models', true);
+        }
+      });
+    </script>
+  </body>
+</html>
