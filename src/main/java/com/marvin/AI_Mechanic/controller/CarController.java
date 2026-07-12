@@ -1,21 +1,24 @@
 package com.marvin.AI_Mechanic.controller;
 
 import com.marvin.AI_Mechanic.dto.DiagnosisRequest;
+import com.marvin.AI_Mechanic.model.AiInquiry;
 import com.marvin.AI_Mechanic.model.CarMake;
 import com.marvin.AI_Mechanic.model.CarModel;
+import com.marvin.AI_Mechanic.service.AiInquiryService;
 import com.marvin.AI_Mechanic.service.CarService;
 import com.marvin.AI_Mechanic.service.GeminiService;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cars")
-@CrossOrigin
 public class CarController {
     
     @Autowired
@@ -23,6 +26,9 @@ public class CarController {
     
     @Autowired
     private GeminiService geminiService;
+
+    @Autowired
+    private AiInquiryService aiInquiryService;
 
     /**
      * Get all car makes
@@ -183,7 +189,18 @@ public class CarController {
      * POST /api/cars/ai/ask
      */
     @PostMapping("/ai/ask")
-    public ResponseEntity<String> askAI(@RequestBody DiagnosisRequest request) {
+    public ResponseEntity<String> askAI(@RequestBody DiagnosisRequest request, Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Authentication is required");
+        }
+
+        String username = authentication.getName();
+        if (aiInquiryService.hasReachedDailyLimit(username)) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .body("Daily AI inquiry limit reached (5 per day). Please try again tomorrow.");
+        }
 
         String symptoms = String.join("\n- ", request.getSymptoms());
         symptoms = "- " + symptoms;
@@ -243,7 +260,29 @@ public class CarController {
                 );
 
         String response = geminiService.getAiResponse(prompt);
+
+        // Save only successful AI inquiries so users can retrieve them later.
+        aiInquiryService.saveInquiry(username, request, response);
+
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Get inquiry history for the currently logged-in user.
+     * GET /api/cars/ai/inquiries
+     */
+    @GetMapping("/ai/inquiries")
+    public ResponseEntity<List<AiInquiryResponse>> getAiInquiryHistory(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<AiInquiryResponse> history = aiInquiryService.getInquiryHistory(authentication.getName())
+            .stream()
+            .map(AiInquiryResponse::from)
+            .toList();
+
+        return ResponseEntity.ok(history);
     }
 
     /**
@@ -355,6 +394,107 @@ public class CarController {
 
         public void setDetail(String detail) {
             this.detail = detail;
+        }
+    }
+
+    /**
+     * DTO for returning AI inquiry history.
+     */
+    public static class AiInquiryResponse {
+        private Long id;
+        private String make;
+        private String model;
+        private int year;
+        private String engine;
+        private String transmission;
+        private String symptoms;
+        private String aiResponse;
+        private Instant createdAt;
+
+        public static AiInquiryResponse from(AiInquiry inquiry) {
+            AiInquiryResponse response = new AiInquiryResponse();
+            response.setId(inquiry.getId());
+            response.setMake(inquiry.getMake());
+            response.setModel(inquiry.getModel());
+            response.setYear(inquiry.getYear());
+            response.setEngine(inquiry.getEngine());
+            response.setTransmission(inquiry.getTransmission());
+            response.setSymptoms(inquiry.getSymptoms());
+            response.setAiResponse(inquiry.getAiResponse());
+            response.setCreatedAt(inquiry.getCreatedAt());
+            return response;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getMake() {
+            return make;
+        }
+
+        public void setMake(String make) {
+            this.make = make;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+        public String getEngine() {
+            return engine;
+        }
+
+        public void setEngine(String engine) {
+            this.engine = engine;
+        }
+
+        public String getTransmission() {
+            return transmission;
+        }
+
+        public void setTransmission(String transmission) {
+            this.transmission = transmission;
+        }
+
+        public String getSymptoms() {
+            return symptoms;
+        }
+
+        public void setSymptoms(String symptoms) {
+            this.symptoms = symptoms;
+        }
+
+        public String getAiResponse() {
+            return aiResponse;
+        }
+
+        public void setAiResponse(String aiResponse) {
+            this.aiResponse = aiResponse;
+        }
+
+        public Instant getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(Instant createdAt) {
+            this.createdAt = createdAt;
         }
     }
 }

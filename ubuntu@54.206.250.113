@@ -1,7 +1,5 @@
 package com.marvin.AI_Mechanic.config;
 
-import java.util.List;
-
 import com.marvin.AI_Mechanic.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -40,28 +34,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // Enable CORS
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-            // Disable CSRF for API endpoints and H2
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**", "/api/**")
             )
 
-            // Allow H2 Console frames
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.disable())
             )
 
-            // Stateless JWT authentication
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
             .authorizeHttpRequests(auth -> auth
-
-                // Allow all CORS preflight requests
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // ===== Public Website =====
                 .requestMatchers(
@@ -114,51 +99,6 @@ public class SecurityConfig {
             );
 
         return http.build();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOriginPatterns(List.of(
-                "http://localhost:*",
-                "http://127.0.0.1:*",
-                "http://192.168.*:*",
-                "http://10.*:*",
-                "http://172.16.*:*",
-                "http://172.17.*:*",
-                "http://172.18.*:*",
-                "http://172.19.*:*",
-                "http://172.2*.*:*",
-                "http://aimechanic.online",
-                "https://aimechanic.online"
-        ));
-
-        configuration.setAllowedMethods(List.of(
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE",
-                "OPTIONS"
-        ));
-
-        configuration.setAllowedHeaders(List.of("*"));
-
-        configuration.setExposedHeaders(List.of(
-                "Authorization",
-                "Content-Type"
-        ));
-
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
     }
 
     @Bean
